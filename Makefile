@@ -1,4 +1,4 @@
-.PHONY: all base buildenv devel-base slim-base push
+.PHONY: all base buildenv devel-base slim-base push clean
 .PHONY: ruby-1.8.7-all  ruby-1.8.7  ruby-1.8.7-slim
 .PHONY: ruby-1.9.3-all  ruby-1.9.3  ruby-1.9.3-slim
 .PHONY: ruby-2.0.0-all  ruby-2.0.0  ruby-2.0.0-slim
@@ -17,6 +17,49 @@ all: base ruby-1.8.7-all ruby-1.9.3-all ruby-2.0.0-all ruby-2.1.10-all ruby-2.2.
 base: buildenv slim-base devel-base
 
 push: all push-ruby-1.8.7-all push-ruby-1.9.3-all push-ruby-2.0.0-all push-ruby-2.1.10-all push-ruby-2.2.10-all push-ruby-2.3.8-all
+
+clean:
+	docker image rm \
+		docker-reg.intercom.it/intercom/ruby:2.3.8-slim-leap \
+		docker-reg.intercom.it/intercom/ruby:2.3.8-slim \
+		ruby:2.3.8-slim-leap \
+		docker-reg.intercom.it/intercom/ruby:2.3.8-leap \
+		docker-reg.intercom.it/intercom/ruby:2.3.8 \
+		ruby:2.3.8-leap \
+		docker-reg.intercom.it/intercom/ruby:2.2.10-slim-leap \
+		docker-reg.intercom.it/intercom/ruby:2.2.10-slim \
+		ruby:2.2.10-slim-leap \
+		docker-reg.intercom.it/intercom/ruby:2.2.10-leap \
+		docker-reg.intercom.it/intercom/ruby:2.2.10 \
+		ruby:2.2.10-leap \
+		docker-reg.intercom.it/intercom/ruby:2.1.10-slim-leap \
+		docker-reg.intercom.it/intercom/ruby:2.1.10-slim \
+		ruby:2.1.10-slim-leap \
+		docker-reg.intercom.it/intercom/ruby:2.1.10-leap \
+		docker-reg.intercom.it/intercom/ruby:2.1.10 \
+		ruby:2.1.10-leap \
+		docker-reg.intercom.it/intercom/ruby:2.0.0-slim-leap \
+		docker-reg.intercom.it/intercom/ruby:2.0.0-slim \
+		ruby:2.0.0-slim-leap \
+		docker-reg.intercom.it/intercom/ruby:2.0.0-leap \
+		docker-reg.intercom.it/intercom/ruby:2.0.0 \
+		ruby:2.0.0-leap \
+		docker-reg.intercom.it/intercom/ruby:1.9.3-slim-leap \
+		docker-reg.intercom.it/intercom/ruby:1.9.3-slim \
+		ruby:1.9.3-slim-leap \
+		docker-reg.intercom.it/intercom/ruby:1.9.3-leap \
+		docker-reg.intercom.it/intercom/ruby:1.9.3 \
+		ruby:1.9.3-leap \
+		docker-reg.intercom.it/intercom/ruby:1.8.7-slim-leap \
+		docker-reg.intercom.it/intercom/ruby:1.8.7-slim \
+		ruby:1.8.7-slim-leap \
+		docker-reg.intercom.it/intercom/ruby:1.8.7-leap \
+		docker-reg.intercom.it/intercom/ruby:1.8.7 \
+		ruby:1.8.7-leap \
+		ruby-slim-base:latest \
+		ruby-base:latest \
+		ruby-buildenv:latest || true
+	docker image rm `docker image ls docker-reg.intercom.it/intercom/ruby --format "{{.ID}}"`
 
 buildenv: 
 	docker build -t ruby-buildenv -f buildenv.dockerfile .
