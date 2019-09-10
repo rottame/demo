@@ -1,6 +1,6 @@
 diff -ruN ruby-2.0.0-p648/ext/openssl/extconf.rb ruby-2.0.0-p648-rvm/ext/openssl/extconf.rb
---- ruby-2.0.0-p648/ext/openssl/extconf.rb	2012-12-20 07:42:56.000000000 +0000
-+++ ruby-2.0.0-p648-rvm/ext/openssl/extconf.rb	2019-07-19 15:22:14.020585844 +0000
+--- ext/openssl/extconf.rb	2012-12-20 07:42:56.000000000 +0000
++++ ext/openssl/extconf.rb	2019-07-19 15:22:14.020585844 +0000
 @@ -103,6 +103,9 @@
  have_func("SSLv2_method")
  have_func("SSLv2_server_method")
@@ -12,8 +12,8 @@ diff -ruN ruby-2.0.0-p648/ext/openssl/extconf.rb ruby-2.0.0-p648-rvm/ext/openssl
  have_func("TLSv1_1_server_method")
  have_func("TLSv1_1_client_method")
 diff -ruN ruby-2.0.0-p648/ext/openssl/ossl_ssl.c ruby-2.0.0-p648-rvm/ext/openssl/ossl_ssl.c
---- ruby-2.0.0-p648/ext/openssl/ossl_ssl.c	2014-01-30 15:51:02.000000000 +0000
-+++ ruby-2.0.0-p648-rvm/ext/openssl/ossl_ssl.c	2019-07-19 15:22:14.020585844 +0000
+--- ext/openssl/ossl_ssl.c	2014-01-30 15:51:02.000000000 +0000
++++ ext/openssl/ossl_ssl.c	2019-07-19 15:22:14.020585844 +0000
 @@ -129,9 +129,12 @@
      OSSL_SSL_METHOD_ENTRY(SSLv2_server),
      OSSL_SSL_METHOD_ENTRY(SSLv2_client),
@@ -28,14 +28,14 @@ diff -ruN ruby-2.0.0-p648/ext/openssl/ossl_ssl.c ruby-2.0.0-p648-rvm/ext/openssl
      OSSL_SSL_METHOD_ENTRY(SSLv23_server),
      OSSL_SSL_METHOD_ENTRY(SSLv23_client),
 diff -ruN ruby-2.0.0-p648/patches.list ruby-2.0.0-p648-rvm/patches.list
---- ruby-2.0.0-p648/patches.list	1970-01-01 00:00:00.000000000 +0000
-+++ ruby-2.0.0-p648-rvm/patches.list	2019-07-19 15:22:14.076584851 +0000
+--- patches.list	1970-01-01 00:00:00.000000000 +0000
++++ patches.list	2019-07-19 15:22:14.076584851 +0000
 @@ -0,0 +1,2 @@
 +openssl3
 +update-autoconf
 diff -ruN ruby-2.0.0-p648/test/openssl/test_ssl.rb ruby-2.0.0-p648-rvm/test/openssl/test_ssl.rb
---- ruby-2.0.0-p648/test/openssl/test_ssl.rb	2015-04-13 13:16:27.000000000 +0000
-+++ ruby-2.0.0-p648-rvm/test/openssl/test_ssl.rb	2019-07-19 15:22:14.020585844 +0000
+--- test/openssl/test_ssl.rb	2015-04-13 13:16:27.000000000 +0000
++++ test/openssl/test_ssl.rb	2019-07-19 15:22:14.020585844 +0000
 @@ -595,7 +595,7 @@
    # that has been marked as forbidden, therefore either of these may be raised
    HANDSHAKE_ERRORS = [OpenSSL::SSL::SSLError, Errno::ECONNRESET]
@@ -46,8 +46,8 @@ diff -ruN ruby-2.0.0-p648/test/openssl/test_ssl.rb ruby-2.0.0-p648-rvm/test/open
    def test_forbid_ssl_v3_for_client
      ctx_proc = Proc.new { |ctx| ctx.options = OpenSSL::SSL::OP_ALL | OpenSSL::SSL::OP_NO_SSLv3 }
 diff -ruN ruby-2.0.0-p648/tool/config.guess ruby-2.0.0-p648-rvm/tool/config.guess
---- ruby-2.0.0-p648/tool/config.guess	2012-01-29 13:50:18.000000000 +0000
-+++ ruby-2.0.0-p648-rvm/tool/config.guess	2019-07-19 15:22:14.072584922 +0000
+--- tool/config.guess	2012-01-29 13:50:18.000000000 +0000
++++ tool/config.guess	2019-07-19 15:22:14.072584922 +0000
 @@ -1,14 +1,12 @@
  #! /bin/sh
  # Attempt to guess a canonical system name.
@@ -899,8 +899,8 @@ diff -ruN ruby-2.0.0-p648/tool/config.guess ruby-2.0.0-p648-rvm/tool/config.gues
  If the version you run ($0) is already up to date, please
  send the following data and any information you think might be
 diff -ruN ruby-2.0.0-p648/tool/config.sub ruby-2.0.0-p648-rvm/tool/config.sub
---- ruby-2.0.0-p648/tool/config.sub	2012-01-29 13:50:18.000000000 +0000
-+++ ruby-2.0.0-p648-rvm/tool/config.sub	2019-07-19 15:22:14.072584922 +0000
+--- tool/config.sub	2012-01-29 13:50:18.000000000 +0000
++++ tool/config.sub	2019-07-19 15:22:14.072584922 +0000
 @@ -1,38 +1,31 @@
  #! /bin/sh
  # Configuration validation subroutine script.

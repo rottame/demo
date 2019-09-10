@@ -19,7 +19,7 @@ RUN mkdir /build
 WORKDIR /build
 RUN wget http://ftp5.gwdg.de/pub/opensuse/discontinued/source/distribution/13.2/repo/oss/suse/src/ImageMagick-6.8.9.8-1.4.src.rpm && \
   wget http://ftp5.gwdg.de/pub/opensuse/source/distribution/leap/15.1/repo/oss/src/openssl-1_0_0-1.0.2p-lp151.4.8.src.rpm && \
-  wget https://downloads.mariadb.com/Connectors/c/connector-c-3.1.2/mariadb-connector-c-3.1.2-src.tar.gz && \
+  wget https://downloads.mariadb.com/Connectors/c/connector-c-2.3.7/mariadb-connector-c-2.3.7-src.tar.gz && \
   mkdir openssl-src im-src && \
   cd openssl-src && \
   rpm2cpio ../openssl-1_0_0-1.0.2p-lp151.4.8.src.rpm | cpio -id && \
@@ -129,8 +129,8 @@ RUN patch      < ../im-src/ImageMagick-6.6.8.9-examples.patch && \
 
   
 WORKDIR /build  
-RUN tar zxf mariadb-connector-c-3.1.2-src.tar.gz
-WORKDIR /build/mariadb-connector-c-3.1.2-src
+RUN tar zxf mariadb-connector-c-2.3.7-src.tar.gz
+WORKDIR /build/mariadb-connector-c-2.3.7-src
 RUN cmake -DWITH_EXTERNAL_ZLIB:BOOL=ON \
   -DMARIADB_UNIX_ADDR:STRING=/run/mysql/mysql.sock \
   -DCMAKE_INSTALL_PREFIX:STRING=/opt/ruby \
@@ -142,7 +142,8 @@ RUN cmake -DWITH_EXTERNAL_ZLIB:BOOL=ON \
   -DINSTALL_PCDIR="/opt/ruby/lib/pkgconfig" && \
   make && \
   make install && \
-  ldconfig
+  ldconfig && \
+  ln -sf /opt/ruby/bin/mariadb_config /opt/ruby/bin/mysql_config
 
 WORKDIR /build
 RUN git clone https://github.com/rbenv/ruby-build.git
