@@ -143,7 +143,8 @@ RUN cmake -DWITH_EXTERNAL_ZLIB:BOOL=ON \
   make && \
   make install && \
   ldconfig && \
-  ln -sf /opt/ruby/bin/mariadb_config /opt/ruby/bin/mysql_config
+  ln -sf /opt/ruby/bin/mariadb_config /opt/ruby/bin/mysql_config && \
+  mv /opt/ruby/lib/mariadb/lib* /opt/ruby/lib/
 
 WORKDIR /build
 RUN git clone https://github.com/rbenv/ruby-build.git
