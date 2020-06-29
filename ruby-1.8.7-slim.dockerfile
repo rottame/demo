@@ -6,3 +6,4 @@ FROM ruby-slim-base AS release
 
 COPY --from=build /opt/ruby /opt/ruby
 RUN ldconfig
+ENV CFLAGS "-O2 -g -m64"

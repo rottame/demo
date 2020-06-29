@@ -1,5 +1,8 @@
 FROM opensuse/leap:15.1 AS build
 
+RUN zypper -n ref
+RUN zypper -n dup
+
 RUN zypper -n in git gcc make automake gdbm-devel libffi-devel \
   libyaml-devel ncurses-devel readline-devel \
   zlib-devel subversion bison wget tar gzip patch cmake xz \
@@ -8,7 +11,8 @@ RUN zypper -n in git gcc make automake gdbm-devel libffi-devel \
   libexif-devel libjasper-devel libjpeg-devel \
   liblcms2-devel liblqr-devel librsvg-devel libtiff-devel libtool \
   libwebp-devel libxml2-devel lzma-devel mupdf-devel-static \
-  openexr-devel openjpeg2-devel p7zip pkgconfig xdg-utils bzip2
+  openexr-devel openjpeg2-devel p7zip pkgconfig xdg-utils bzip2 \
+  libnghttp2-devel libidn2-devel
   
 RUN echo /opt/ruby/lib > /etc/ld.so.conf.d/ruby.conf
 ENV PKG_CONFIG_PATH /opt/ruby/lib/pkgconfig
@@ -20,6 +24,7 @@ WORKDIR /build
 RUN wget http://ftp5.gwdg.de/pub/opensuse/discontinued/source/distribution/13.2/repo/oss/suse/src/ImageMagick-6.8.9.8-1.4.src.rpm && \
   wget http://ftp5.gwdg.de/pub/opensuse/source/distribution/leap/15.1/repo/oss/src/openssl-1_0_0-1.0.2p-lp151.4.8.src.rpm && \
   wget https://downloads.mariadb.com/Connectors/c/connector-c-2.3.7/mariadb-connector-c-2.3.7-src.tar.gz && \
+  wget https://github.com/curl/curl/releases/download/curl-7_70_0/curl-7.70.0.tar.bz2 && \
   mkdir openssl-src im-src && \
   cd openssl-src && \
   rpm2cpio ../openssl-1_0_0-1.0.2p-lp151.4.8.src.rpm | cpio -id && \
@@ -73,7 +78,7 @@ RUN patch -p1 < ../openssl-src/merge_from_0.9.8k.patch && \
   patch -p1 -R < ../openssl-src/0001-Set-FIPS-thread-id-callback.patch  && \
   patch -p1 < ../openssl-src/openssl-CVE-2018-0737-fips.patch  && \
   patch -p1 < ../openssl-src/openssl-One_and_Done.patch && \
-  ./config --prefix=/opt/ruby --openssldir=/usr/share/ssl/ \
+  ./config --prefix=/opt/ruby --openssldir=/etc/ssl/ \
     threads shared no-rc5 no-idea fips no-ssl2 no-ssl3 enable-rfc3779 \
     enable-ec_nistp_64_gcc_128 enable-camellia zlib no-ec2m \
     ${CFLAGS} \
@@ -145,6 +150,17 @@ RUN cmake -DWITH_EXTERNAL_ZLIB:BOOL=ON \
   ldconfig && \
   ln -sf /opt/ruby/bin/mariadb_config /opt/ruby/bin/mysql_config && \
   mv /opt/ruby/lib/mariadb/lib* /opt/ruby/lib/
+
+
+WORKDIR /build  
+RUN tar jxf curl-7.70.0.tar.bz2
+WORKDIR /build/curl-7.70.0
+RUN LDFLAGS="-L/opt/ruby/lib" ./configure   \
+  --prefix=/opt/ruby  \
+  --with-nghttp2 && \
+  make && \
+  make install && \
+  ldconfig
 
 WORKDIR /build
 RUN git clone https://github.com/rbenv/ruby-build.git
