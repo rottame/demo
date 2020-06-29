@@ -1,0 +1,48 @@
+# Blacklist Sectigo AddTrust External CA Root
+#
+#   cp addtrust-external-root.p11-kit /etc/pki/ca-trust/source/blacklist/addtrust-external-root.p11-kit
+#   update-ca-trust extract
+#
+# pkcs11:id=%AD%BD%98%7A%34%B4%26%F7%FA%C4%26%54%EF%03%BD%E0%24%CB%54%1A;type=cert
+[p11-kit-object-v1]
+private: false
+label: "AddTrust External Root"
+issuer: "0o1%0B0%09%06%03U%04%06%13%02SE1%140%12%06%03U%04%0A%13%0BAddTrust AB1%260%24%06%03U%04%0B%13%1DAddTrust External TTP Network1%220 %06%03U%04%03%13%19AddTrust External CA Root"
+serial-number: "%02%01%01"
+trusted: false
+certificate-category: authority
+java-midp-security-domain: 0
+hash-of-subject-public-key: "O%9C%7D%21y%9C%AD%0E%D8%B9%0CW%9F%1A%02%99%E7%90%F3%87"
+hash-of-issuer-public-key: ""
+check-value: "%02%FA%F3"
+subject: "0o1%0B0%09%06%03U%04%06%13%02SE1%140%12%06%03U%04%0A%13%0BAddTrust AB1%260%24%06%03U%04%0B%13%1DAddTrust External TTP Network1%220 %06%03U%04%03%13%19AddTrust External CA Root"
+id: "%AD%BD%98z4%B4%26%F7%FA%C4%26T%EF%03%BD%E0%24%CBT%1A"
+start-date: "20000530"
+end-date: "20200530"
+modifiable: false
+x-distrusted: true
+-----BEGIN CERTIFICATE-----
+MIIENjCCAx6gAwIBAgIBATANBgkqhkiG9w0BAQUFADBvMQswCQYDVQQGEwJTRTEU
+MBIGA1UEChMLQWRkVHJ1c3QgQUIxJjAkBgNVBAsTHUFkZFRydXN0IEV4dGVybmFs
+IFRUUCBOZXR3b3JrMSIwIAYDVQQDExlBZGRUcnVzdCBFeHRlcm5hbCBDQSBSb290
+MB4XDTAwMDUzMDEwNDgzOFoXDTIwMDUzMDEwNDgzOFowbzELMAkGA1UEBhMCU0Ux
+FDASBgNVBAoTC0FkZFRydXN0IEFCMSYwJAYDVQQLEx1BZGRUcnVzdCBFeHRlcm5h
+bCBUVFAgTmV0d29yazEiMCAGA1UEAxMZQWRkVHJ1c3QgRXh0ZXJuYWwgQ0EgUm9v
+dDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALf3GjPm8gAELTngTlvt
+H7xsD821+iO2zt6bETOXpClMfZOfvUq8k+0DGuOPz+VtUFrWlymUWoCwSXrbLpX9
+uMq/NzgtHj6RQa1wVsfwTz/oMp50ysiQVOnGXw94nZpAPA6sYapeFI+eh6FqUNzX
+mk6vBbOmcZSccbNQYArHE504B4YCqOmoaSYYkKtMsE8jqzpPhNjfzp/haW+710LX
+a0Tkx63ubUFfclpxCDezeWWkWaCUN/cALw3CknLa0Dhy2xSoRcRdKn23tNbE7qzN
+E0S3ySvdQwAl+mG5aWpYIxG3pzOPVnVZ9c0p10a3CitlttNCbxWyuHv77+ldU9U0
+WicCAwEAAaOB3DCB2TAdBgNVHQ4EFgQUrb2YejS0Jvf6xCZU7wO94CTLVBowCwYD
+VR0PBAQDAgEGMA8GA1UdEwEB/wQFMAMBAf8wgZkGA1UdIwSBkTCBjoAUrb2YejS0
+Jvf6xCZU7wO94CTLVBqhc6RxMG8xCzAJBgNVBAYTAlNFMRQwEgYDVQQKEwtBZGRU
+cnVzdCBBQjEmMCQGA1UECxMdQWRkVHJ1c3QgRXh0ZXJuYWwgVFRQIE5ldHdvcmsx
+IjAgBgNVBAMTGUFkZFRydXN0IEV4dGVybmFsIENBIFJvb3SCAQEwDQYJKoZIhvcN
+AQEFBQADggEBALCb4IUlwtYj4g+WBpKdQZic2YR5gdkeWxQHIzZlj7DYd7usQWxH
+YINRsPkyPef89iYTx4AWpb9a/IfPeHmJIZriTAcKhjW88t5RxNKWt9x+Tu5w/Rw5
+6wwCURQtjr0W4MHfRnXnJK3s9EK0hZNwEGe6nQY1ShjTK3rMUUKhemPR5ruhxSvC
+Nr4TDea9Y355e6cJDUCrat2PisP29owaQgVR1EX1n6diIWgVIEM8med8vSTYqZEX
+c4g/VhsxOBi0cQ+azcgOno4uG+GMmIPLHzHxREzGBHNJdmAPx/i9F4BrLunMTA5a
+mnkPIAou1Z5jJh5VkpTYghdae9C8x49OhgQ=
+-----END CERTIFICATE-----
