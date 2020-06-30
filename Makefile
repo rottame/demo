@@ -72,72 +72,72 @@ devel-base:
 
 ruby-1.8.7: ruby-1.8.7-dev ruby-1.8.7-slim
 
-ruby-1.8.7-dev:
+ruby-1.8.7-dev: buildenv devel-base
 	docker build -t ruby:1.8.7-leap -f ruby-1.8.7.dockerfile .
 	docker tag ruby:1.8.7-leap docker-reg.intercom.it/intercom/ruby:1.8.7
 	docker tag ruby:1.8.7-leap docker-reg.intercom.it/intercom/ruby:1.8.7-leap
 
-ruby-1.8.7-slim:
+ruby-1.8.7-slim: slim-base ruby-1.8.7-dev
 	docker build -t ruby:1.8.7-slim-leap -f ruby-1.8.7-slim.dockerfile .
 	docker tag ruby:1.8.7-slim-leap docker-reg.intercom.it/intercom/ruby:1.8.7-slim
 	docker tag ruby:1.8.7-slim-leap docker-reg.intercom.it/intercom/ruby:1.8.7-slim-leap
 
 ruby-1.9.3: ruby-1.9.3-dev ruby-1.9.3-slim
 
-ruby-1.9.3-dev:
+ruby-1.9.3-dev: buildenv devel-base
 	docker build -t ruby:1.9.3-leap -f ruby-1.9.3.dockerfile .
 	docker tag ruby:1.9.3-leap docker-reg.intercom.it/intercom/ruby:1.9.3
 	docker tag ruby:1.9.3-leap docker-reg.intercom.it/intercom/ruby:1.9.3-leap
 
-ruby-1.9.3-slim:
+ruby-1.9.3-slim: slim-base ruby-1.9.3-dev
 	docker build -t ruby:1.9.3-slim-leap -f ruby-1.9.3-slim.dockerfile .
 	docker tag ruby:1.9.3-slim-leap docker-reg.intercom.it/intercom/ruby:1.9.3-slim
 	docker tag ruby:1.9.3-slim-leap docker-reg.intercom.it/intercom/ruby:1.9.3-slim-leap
 
 ruby-2.0.0: ruby-2.0.0-dev ruby-2.0.0-slim
 
-ruby-2.0.0-dev:
+ruby-2.0.0-dev: buildenv devel-base
 	docker build -t ruby:2.0.0-leap -f ruby-2.0.0.dockerfile .
 	docker tag ruby:2.0.0-leap docker-reg.intercom.it/intercom/ruby:2.0.0
 	docker tag ruby:2.0.0-leap docker-reg.intercom.it/intercom/ruby:2.0.0-leap
 
-ruby-2.0.0-slim:
+ruby-2.0.0-slim: slim-base ruby-2.0.0-dev
 	docker build -t ruby:2.0.0-slim-leap -f ruby-2.0.0-slim.dockerfile .
 	docker tag ruby:2.0.0-slim-leap docker-reg.intercom.it/intercom/ruby:2.0.0-slim
 	docker tag ruby:2.0.0-slim-leap docker-reg.intercom.it/intercom/ruby:2.0.0-slim-leap
 
 ruby-2.1.10: ruby-2.1.10-dev ruby-2.1.10-slim
 
-ruby-2.1.10-dev:
+ruby-2.1.10-dev: buildenv devel-base
 	docker build -t ruby:2.1.10-leap -f ruby-2.1.10.dockerfile .
 	docker tag ruby:2.1.10-leap docker-reg.intercom.it/intercom/ruby:2.1.10
 	docker tag ruby:2.1.10-leap docker-reg.intercom.it/intercom/ruby:2.1.10-leap
 
-ruby-2.1.10-slim:
+ruby-2.1.10-slim: slim-base ruby-2.1.10-dev
 	docker build -t ruby:2.1.10-slim-leap -f ruby-2.1.10-slim.dockerfile .
 	docker tag ruby:2.1.10-slim-leap docker-reg.intercom.it/intercom/ruby:2.1.10-slim
 	docker tag ruby:2.1.10-slim-leap docker-reg.intercom.it/intercom/ruby:2.1.10-slim-leap
 
 ruby-2.2.10: ruby-2.2.10-dev ruby-2.2.10-slim
 
-ruby-2.2.10-dev:
+ruby-2.2.10-dev: buildenv devel-base
 	docker build -t ruby:2.2.10-leap -f ruby-2.2.10.dockerfile .
 	docker tag ruby:2.2.10-leap docker-reg.intercom.it/intercom/ruby:2.2.10
 	docker tag ruby:2.2.10-leap docker-reg.intercom.it/intercom/ruby:2.2.10-leap
 
-ruby-2.2.10-slim:
+ruby-2.2.10-slim: slim-base ruby-2.2.10-dev
 	docker build -t ruby:2.2.10-slim-leap -f ruby-2.2.10-slim.dockerfile .
 	docker tag ruby:2.2.10-slim-leap docker-reg.intercom.it/intercom/ruby:2.2.10-slim
 	docker tag ruby:2.2.10-slim-leap docker-reg.intercom.it/intercom/ruby:2.2.10-slim-leap
 
 ruby-2.3.8: ruby-2.3.8-dev ruby-2.3.8-slim
 
-ruby-2.3.8-dev:
+ruby-2.3.8-dev: buildenv devel-base
 	docker build -t ruby:2.3.8-leap -f ruby-2.3.8.dockerfile .
 	docker tag ruby:2.3.8-leap docker-reg.intercom.it/intercom/ruby:2.3.8
 	docker tag ruby:2.3.8-leap docker-reg.intercom.it/intercom/ruby:2.3.8-leap
 
-ruby-2.3.8-slim:
+ruby-2.3.8-slim: slim-base ruby-2.3.8-dev
 	docker build -t ruby:2.3.8-slim-leap -f ruby-2.3.8-slim.dockerfile .
 	docker tag ruby:2.3.8-slim-leap docker-reg.intercom.it/intercom/ruby:2.3.8-slim
 	docker tag ruby:2.3.8-slim-leap docker-reg.intercom.it/intercom/ruby:2.3.8-slim-leap
