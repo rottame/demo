@@ -11,3 +11,7 @@ RUN ln -sf /usr/share/zoneinfo/Europe/Rome /etc/localtime
 
 ENV PATH /opt/ruby/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 RUN echo /opt/ruby/lib > /etc/ld.so.conf.d/ruby.conf
+
+ADD AddTrust_External_CA_Root.p11-kit /etc/pki/trust/blacklist/AddTrust_External_CA_Root.p11-kit
+RUN update-ca-certificates
+
