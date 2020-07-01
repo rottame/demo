@@ -1,6 +1,6 @@
 FROM ruby:1.9.3-leap AS build
-RUN find /opt/ruby/lib/ -name "*.a" -exec rm '{}' \; && \
-  find /opt/ruby/lib/ -name "*.la" -exec rm '{}' \; 
+RUN rm -f /opt/ruby/lib/*.a && \
+  rm -f /opt/ruby/lib/*.la
   
 FROM ruby-slim-base AS release
 
