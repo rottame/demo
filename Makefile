@@ -26,6 +26,15 @@ push: all push-ruby-1.8.7 push-ruby-1.9.3 push-ruby-2.0.0 push-ruby-2.1.10 push-
 
 clean:
 	docker image rm \
+		docker-reg.intercom.it/intercom/ruby:${R_25_VERSION} \
+		docker-reg.intercom.it/intercom/ruby:${R_25_VERSION}-leap \
+		ruby:2.5-leap \
+		docker-reg.intercom.it/intercom/ruby:${R_26_VERSION} \
+		docker-reg.intercom.it/intercom/ruby:${R_26_VERSION}-leap \
+		ruby:2.6-leap \
+		docker-reg.intercom.it/intercom/ruby:${R_27_VERSION} \
+		docker-reg.intercom.it/intercom/ruby:${R_27_VERSION}-leap \
+		ruby:2.7-leap \
 		docker-reg.intercom.it/intercom/ruby:2.3.8-slim-leap \
 		docker-reg.intercom.it/intercom/ruby:2.3.8-slim \
 		ruby:2.3.8-slim-leap \
@@ -64,11 +73,15 @@ clean:
 		ruby:1.8.7-leap \
 		ruby-slim-base:latest \
 		ruby-base:latest \
-		ruby-buildenv:latest || true
+		ruby-buildenv-base:latest \
+		ruby-buildenv-mc2:latest \
+		ruby-buildenv-mc3:latest || true
 	docker image rm `docker image ls docker-reg.intercom.it/intercom/ruby --format "{{.ID}}"`
 
 buildenv: 
-	docker build -t ruby-buildenv -f buildenv.dockerfile .
+	docker build -t ruby-buildenv-base -f buildenv.dockerfile .
+	docker build -t ruby-buildenv-mc2 -f buildenv-mariadb-connector-2.dockerfile .
+	docker build -t ruby-buildenv-mc3 -f buildenv-mariadb-connector-3.dockerfile .
 
 slim-base: 
 	docker build -t ruby-slim-base -f slim-base.dockerfile .

@@ -1,4 +1,4 @@
-FROM ruby-buildenv AS build
+FROM ruby-buildenv-mc2 AS build
 
 WORKDIR /build
 COPY ruby-1.9.3.patch ruby.patch

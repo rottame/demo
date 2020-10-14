@@ -1,4 +1,4 @@
-FROM ruby-buildenv AS build
+FROM ruby-buildenv-mc3 AS build
 
 WORKDIR /build
 RUN CONFIGURE_OPTS="--enable-shared --disable-static" \

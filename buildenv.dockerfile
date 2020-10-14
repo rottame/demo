@@ -21,15 +21,16 @@ ENV CFLAGS "-O2 -g -m64 -fmessage-length=0 -D_FORTIFY_SOURCE=2 -fstack-protector
 
 RUN mkdir /build
 WORKDIR /build
-RUN wget http://ftp5.gwdg.de/pub/opensuse/discontinued/source/distribution/13.2/repo/oss/suse/src/ImageMagick-6.8.9.8-1.4.src.rpm && \
+RUN wget http://repos.obs.intercom.it/home:/rottame:/vhosts-ng/openSUSE_Leap_15.2/src/ImageMagick6-6.8.8.1-lp152.82.1.src.rpm && \
   wget http://ftp5.gwdg.de/pub/opensuse/source/distribution/leap/15.1/repo/oss/src/openssl-1_0_0-1.0.2p-lp151.4.8.src.rpm && \
   wget https://downloads.mariadb.com/Connectors/c/connector-c-3.1.9/mariadb-connector-c-3.1.9-src.tar.gz && \
+  wget https://downloads.mariadb.com/Connectors/c/connector-c-2.3.7/mariadb-connector-c-2.3.7-src.tar.gz && \
   wget https://github.com/curl/curl/releases/download/curl-7_70_0/curl-7.70.0.tar.bz2 && \
   mkdir openssl-src im-src && \
   cd openssl-src && \
   rpm2cpio ../openssl-1_0_0-1.0.2p-lp151.4.8.src.rpm | cpio -id && \
   cd ../im-src && \
-  rpm2cpio ../ImageMagick-6.8.9.8-1.4.src.rpm | cpio -id
+  rpm2cpio ../ImageMagick6-6.8.8.1-lp152.82.1.src.rpm | cpio -id
 
 
 RUN tar zxf openssl-src/openssl-1.0.2p.tar.gz
@@ -97,22 +98,20 @@ RUN patch -p1 < ../openssl-src/merge_from_0.9.8k.patch && \
   ldconfig
 
 WORKDIR /build
-RUN tar Jxf /build/im-src/ImageMagick-6.8.9-8.tar.xz
-WORKDIR /build/ImageMagick-6.8.9-8
+RUN tar Jxf /build/im-src/ImageMagick-6.8.8-1.tar.xz
+WORKDIR /build/ImageMagick-6.8.8-1
+ADD patch_im.sh .
+RUN chmod 755 patch_im.sh
+RUN ./patch_im.sh
 ENV MODULES_DIRNAME "modules-6_Q16-2"
 ENV SHAREARCH_DIRNAME "config-6_Q16-2"
-RUN patch      < ../im-src/ImageMagick-6.6.8.9-examples.patch && \  
-  patch      < ../im-src/ImageMagick-6.6.8.9-doc.patch && \  
-  patch -p1  < ../im-src/ImageMagick-6.7.6.1-no-dist-lzip.patch && \       
-  patch -p1  < ../im-src/ImageMagick-6.8.4.0-rpath.patch && \       
-  patch -p1  < ../im-src/ImageMagick-6.8.5.7-no-XPMCompliance.patch && \       
-  patch -p1  < ../im-src/ImageMagick-6.8.4.0-dont-build-in-install.patch && \                  
-  sed -i 's:^\(CONFIGURE_RELATIVE_PATH=.*\):\1_Q16-2:' configure.ac && \               
+RUN sed -i 's:^\(CONFIGURE_RELATIVE_PATH=.*\):\1_Q16-2:' configure.ac && \               
   autoreconf --force --install -v && \               
   automake && \               
   LDFLAGS="-L/opt/ruby/lib" ./configure \
   --prefix=/opt/ruby \
   --with-pic \
+  --disable-silent-rules \
   --enable-shared \
   --without-frozenpaths \
   --with-magick_plus_plus \
@@ -121,8 +120,8 @@ RUN patch      < ../im-src/ImageMagick-6.6.8.9-examples.patch && \
   --without-perl \
   --disable-static \
   --with-djvu=yes \
-  --with-wmf=yes \
   --with-rsvg=yes \
+  --with-wmf=yes \
   --with-quantum-depth=16 && \
   make all && \
   make install && \
@@ -131,6 +130,7 @@ RUN patch      < ../im-src/ImageMagick-6.6.8.9-examples.patch && \
   ln -sf /opt/ruby/lib/libMagickWand-6.Q16.so /opt/ruby/lib/libMagickWand.so && \
   ldconfig
 
+RUN patch --dir /opt/ruby/etc/ImageMagick-6_Q16-2 < ../im-src/ImageMagick-configuration-SUSE.patch
   
 WORKDIR /build  
 RUN tar zxf mariadb-connector-c-3.1.9-src.tar.gz

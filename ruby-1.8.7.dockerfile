@@ -1,4 +1,4 @@
-FROM ruby-buildenv AS build
+FROM ruby-buildenv-mc2 AS build
 
 WORKDIR /build
 COPY ruby-1.8.7.patch ruby.patch
