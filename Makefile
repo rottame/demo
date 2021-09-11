@@ -14,7 +14,7 @@
 
 R_25_VERSION=2.5.8
 R_26_VERSION=2.6.6
-R_27_VERSION=2.7.1
+R_27_VERSION=2.7.2
 
 all: base ruby-1.8.7 ruby-1.9.3 ruby-2.0.0 ruby-2.1.10 ruby-2.2.10 ruby-2.3.8 \
 			ruby-2.4.10 ruby-2.5 ruby-2.6 ruby-2.7 
@@ -192,11 +192,15 @@ ruby-2.5-dev: buildenv-new devel-base-new
 	docker build --build-arg VERSION=${R_25_VERSION} -t ruby:2.5-leap -f ruby-2.5.dockerfile .
 	docker tag ruby:2.5-leap docker-reg.intercom.it/intercom/ruby:${R_25_VERSION}
 	docker tag ruby:2.5-leap docker-reg.intercom.it/intercom/ruby:${R_25_VERSION}-leap
+	docker tag ruby:2.5-leap docker-reg.intercom.it/intercom/ruby:2.5
+	docker tag ruby:2.5-leap docker-reg.intercom.it/intercom/ruby:2.5-leap
 
 ruby-2.5-slim: slim-base-new ruby-2.5-dev
 	docker build -t ruby:2.5-slim-leap -f ruby-2.5-slim.dockerfile .
 	docker tag ruby:2.5-slim-leap docker-reg.intercom.it/intercom/ruby:${R_25_VERSION}-slim
 	docker tag ruby:2.5-slim-leap docker-reg.intercom.it/intercom/ruby:${R_25_VERSION}-slim-leap
+	docker tag ruby:2.5-slim-leap docker-reg.intercom.it/intercom/ruby:2.5-slim
+	docker tag ruby:2.5-slim-leap docker-reg.intercom.it/intercom/ruby:2.5-slim-leap
 
 ruby-2.6: ruby-2.6-dev ruby-2.6-slim
 
@@ -204,11 +208,16 @@ ruby-2.6-dev: buildenv-new devel-base-new
 	docker build --build-arg VERSION=${R_26_VERSION} -t ruby:2.6-leap -f ruby-2.6.dockerfile .
 	docker tag ruby:2.6-leap docker-reg.intercom.it/intercom/ruby:${R_26_VERSION}
 	docker tag ruby:2.6-leap docker-reg.intercom.it/intercom/ruby:${R_26_VERSION}-leap
+	docker tag ruby:2.6-leap docker-reg.intercom.it/intercom/ruby:2.6
+	docker tag ruby:2.6-leap docker-reg.intercom.it/intercom/ruby:2.6-leap
+
 
 ruby-2.6-slim: slim-base-new ruby-2.6-dev
 	docker build -t ruby:2.6-slim-leap -f ruby-2.6-slim.dockerfile .
 	docker tag ruby:2.6-slim-leap docker-reg.intercom.it/intercom/ruby:${R_26_VERSION}-slim
 	docker tag ruby:2.6-slim-leap docker-reg.intercom.it/intercom/ruby:${R_26_VERSION}-slim-leap
+	docker tag ruby:2.6-slim-leap docker-reg.intercom.it/intercom/ruby:2.6-slim
+	docker tag ruby:2.6-slim-leap docker-reg.intercom.it/intercom/ruby:2.6-slim-leap
 
 ruby-2.7: ruby-2.7-dev ruby-2.7-slim
 
@@ -216,12 +225,15 @@ ruby-2.7-dev: buildenv-new devel-base-new
 	docker build --build-arg VERSION=${R_27_VERSION} -t ruby:2.7-leap -f ruby-2.7.dockerfile .
 	docker tag ruby:2.7-leap docker-reg.intercom.it/intercom/ruby:${R_27_VERSION}
 	docker tag ruby:2.7-leap docker-reg.intercom.it/intercom/ruby:${R_27_VERSION}-leap
+	docker tag ruby:2.7-leap docker-reg.intercom.it/intercom/ruby:2.7
+	docker tag ruby:2.7-leap docker-reg.intercom.it/intercom/ruby:2.7-leap
 
 ruby-2.7-slim: slim-base-new ruby-2.7-dev
 	docker build -t ruby:2.7-slim-leap -f ruby-2.7-slim.dockerfile .
 	docker tag ruby:2.7-slim-leap docker-reg.intercom.it/intercom/ruby:${R_27_VERSION}-slim
 	docker tag ruby:2.7-slim-leap docker-reg.intercom.it/intercom/ruby:${R_27_VERSION}-slim-leap
-
+	docker tag ruby:2.7-slim-leap docker-reg.intercom.it/intercom/ruby:2.7-slim
+	docker tag ruby:2.7-slim-leap docker-reg.intercom.it/intercom/ruby:2.7-slim-leap
 
 
 
@@ -301,27 +313,39 @@ push-ruby-2.5: push-ruby-2.5-dev push-ruby-2.5-slim
 push-ruby-2.5-dev: ruby-2.5-dev
 	docker push docker-reg.intercom.it/intercom/ruby:${R_25_VERSION}
 	docker push docker-reg.intercom.it/intercom/ruby:${R_25_VERSION}-leap
+	docker push docker-reg.intercom.it/intercom/ruby:2.5
+	docker push docker-reg.intercom.it/intercom/ruby:2.5-leap
 
 push-ruby-2.5-slim: ruby-2.5-slim
 	docker push docker-reg.intercom.it/intercom/ruby:${R_25_VERSION}-slim
 	docker push docker-reg.intercom.it/intercom/ruby:${R_25_VERSION}-slim-leap
+	docker push docker-reg.intercom.it/intercom/ruby:2.5-slim
+	docker push docker-reg.intercom.it/intercom/ruby:2.5-slim-leap
 
 push-ruby-2.6: push-ruby-2.6-dev push-ruby-2.6-slim
 
 push-ruby-2.6-dev: ruby-2.6-dev
 	docker push docker-reg.intercom.it/intercom/ruby:${R_26_VERSION}
 	docker push docker-reg.intercom.it/intercom/ruby:${R_26_VERSION}-leap
+	docker push docker-reg.intercom.it/intercom/ruby:2.6
+	docker push docker-reg.intercom.it/intercom/ruby:2.6-leap
 
 push-ruby-2.6-slim: ruby-2.6-slim
 	docker push docker-reg.intercom.it/intercom/ruby:${R_26_VERSION}-slim
 	docker push docker-reg.intercom.it/intercom/ruby:${R_26_VERSION}-slim-leap
+	docker push docker-reg.intercom.it/intercom/ruby:2.6-slim
+	docker push docker-reg.intercom.it/intercom/ruby:2.6-slim-leap
 
 push-ruby-2.7: push-ruby-2.7-dev push-ruby-2.7-slim
 
 push-ruby-2.7-dev: ruby-2.7-dev
 	docker push docker-reg.intercom.it/intercom/ruby:${R_27_VERSION}
 	docker push docker-reg.intercom.it/intercom/ruby:${R_27_VERSION}-leap
+	docker push docker-reg.intercom.it/intercom/ruby:2.7
+	docker push docker-reg.intercom.it/intercom/ruby:2.7-leap
 
 push-ruby-2.7-slim: ruby-2.7-slim
 	docker push docker-reg.intercom.it/intercom/ruby:${R_27_VERSION}-slim
 	docker push docker-reg.intercom.it/intercom/ruby:${R_27_VERSION}-slim-leap
+	docker push docker-reg.intercom.it/intercom/ruby:2.7-slim
+	docker push docker-reg.intercom.it/intercom/ruby:2.7-slim-leap

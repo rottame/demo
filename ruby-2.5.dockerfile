@@ -11,3 +11,4 @@ FROM ruby-base-new AS release
 
 COPY --from=build /opt/ruby /opt/ruby
 RUN ldconfig
+ENV MARIADB_PLUGIN_DIR=/usr/lib64/mysql/plugin
