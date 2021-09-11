@@ -1,4 +1,5 @@
-FROM ruby-slim-base
+ARG LEAP_VERSION
+FROM ruby-slim-base-${LEAP_VERSION}
 
 RUN zypper -n in gcc make libffi-devel libyaml-devel pkgconfig
   

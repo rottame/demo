@@ -1,4 +1,5 @@
-FROM ruby-slim-base-new
+ARG LEAP_VERSION
+FROM ruby-slim-base-new-${LEAP_VERSION}
 
 RUN zypper -n in gcc make libffi-devel libyaml-devel pkgconfig \
     ImageMagick-devel libcurl-devel libmariadb-devel libmariadb_plugins libopenssl-1_1-devel

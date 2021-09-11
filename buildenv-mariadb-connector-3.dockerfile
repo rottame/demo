@@ -1,4 +1,5 @@
-FROM ruby-buildenv-base AS build
+ARG LEAP_VERSION
+FROM ruby-buildenv-base-${LEAP_VERSION} AS build
   
 WORKDIR /build  
 RUN tar zxf mariadb-connector-c-3.1.9-src.tar.gz

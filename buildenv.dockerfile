@@ -1,4 +1,5 @@
-FROM opensuse/leap:15.2 AS build
+ARG LEAP_VERSION
+FROM opensuse/leap:${LEAP_VERSION} AS build
 
 RUN zypper -n ref
 RUN zypper -n dup

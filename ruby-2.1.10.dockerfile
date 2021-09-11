@@ -1,4 +1,5 @@
-FROM ruby-buildenv-mc2 AS build
+ARG LEAP_VERSION
+FROM ruby-buildenv-mc2-${LEAP_VERSION} AS build
 
 WORKDIR /build
 RUN CONFIGURE_OPTS="--enable-shared --disable-static" \
@@ -6,7 +7,7 @@ RUN CONFIGURE_OPTS="--enable-shared --disable-static" \
   ruby-build 2.1.10 --patch /opt/ruby
 
 
-FROM ruby-base AS release
+FROM ruby-base-${LEAP_VERSION} AS release
 
 COPY --from=build /opt/ruby /opt/ruby
 RUN ldconfig
