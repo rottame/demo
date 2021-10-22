@@ -161,6 +161,7 @@ RUN LDFLAGS="-L/opt/ruby/lib" ./configure   \
   ldconfig
 
 ADD AddTrust_External_CA_Root.p11-kit /etc/pki/trust/blacklist/AddTrust_External_CA_Root.p11-kit
+ADD DST_Root_CA_X3.pem /etc/pki/trust/blacklist/DST_Root_CA_X3.pem
 RUN update-ca-certificates
 
 WORKDIR /build

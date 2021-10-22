@@ -28,5 +28,6 @@ ENV PATH /opt/ruby/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/
 RUN echo /opt/ruby/lib > /etc/ld.so.conf.d/ruby.conf
 
 ADD AddTrust_External_CA_Root.p11-kit /etc/pki/trust/blacklist/AddTrust_External_CA_Root.p11-kit
+ADD DST_Root_CA_X3.pem /etc/pki/trust/blacklist/DST_Root_CA_X3.pem
 RUN update-ca-certificates
 
