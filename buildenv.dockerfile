@@ -22,67 +22,86 @@ ENV CFLAGS "-O2 -g -m64 -fmessage-length=0 -D_FORTIFY_SOURCE=2 -fstack-protector
 
 RUN mkdir /build
 WORKDIR /build
-RUN wget http://repos.obs.intercom.it/home:/rottame:/vhosts-ng/openSUSE_Leap_15.2/src/ImageMagick6-6.8.8.1-lp152.82.1.src.rpm && \
-  wget http://ftp5.gwdg.de/pub/opensuse/source/distribution/leap/15.1/repo/oss/src/openssl-1_0_0-1.0.2p-lp151.4.8.src.rpm && \
-  wget https://downloads.mariadb.com/Connectors/c/connector-c-3.1.9/mariadb-connector-c-3.1.9-src.tar.gz && \
+RUN wget https://repos.obs.intercom.it/home:/rottame:/vhosts-ng/15.4/src/ImageMagick6-6.8.8.1-lp154.82.1.src.rpm && \
+  wget https://download.opensuse.org/repositories/security:/tls/15.4/src/openssl-1_0_0-1.0.2u-lp154.86.4.src.rpm && \
+  wget https://downloads.mariadb.com/Connectors/c/connector-c-3.3.2/mariadb-connector-c-3.3.2-src.tar.gz && \
   wget https://downloads.mariadb.com/Connectors/c/connector-c-2.3.7/mariadb-connector-c-2.3.7-src.tar.gz && \
-  wget https://github.com/curl/curl/releases/download/curl-7_70_0/curl-7.70.0.tar.bz2 && \
+  wget https://github.com/curl/curl/releases/download/curl-7_85_0/curl-7.85.0.tar.bz2 && \
   mkdir openssl-src im-src && \
   cd openssl-src && \
-  rpm2cpio ../openssl-1_0_0-1.0.2p-lp151.4.8.src.rpm | cpio -id && \
+  rpm2cpio ../openssl-1_0_0-1.0.2u-lp154.86.4.src.rpm | cpio -id && \
   cd ../im-src && \
-  rpm2cpio ../ImageMagick6-6.8.8.1-lp152.82.1.src.rpm | cpio -id
+  rpm2cpio ../ImageMagick6-6.8.8.1-lp154.82.1.src.rpm | cpio -id
 
 
-RUN tar zxf openssl-src/openssl-1.0.2p.tar.gz
-WORKDIR /build/openssl-1.0.2p
+RUN tar zxf openssl-src/openssl-1.0.2u.tar.gz
+WORKDIR /build/openssl-1.0.2u
 RUN patch -p1 < ../openssl-src/merge_from_0.9.8k.patch && \
-  patch -p1 < ../openssl-src/openssl-1.0.0-c_rehash-compat.diff  && \
-  patch -p1 < ../openssl-src/openssl-engines-path.patch  && \
-  patch -p1 < ../openssl-src/openssl-1.0.0-version.patch  && \
-  patch -p1 < ../openssl-src/openssl-1.0.2a-padlock64.patch  && \
-  patch -p1 < ../openssl-src/openssl-fix-pod-syntax.diff  && \
-  patch -p1 < ../openssl-src/openssl-truststore.patch  && \
-  patch -p1 < ../openssl-src/compression_methods_switch.patch  && \
-  patch -p1 < ../openssl-src/openssl-1.0.2a-default-paths.patch  && \
-  patch -p1 < ../openssl-src/openssl-pkgconfig.patch  && \
-  patch -p1 < ../openssl-src/openssl-1.0.2a-ipv6-apps.patch  && \
-  patch -p1 < ../openssl-src/openssl-1.0.2i-fips.patch  && \
-  patch -p1 < ../openssl-src/openssl-1.0.2a-fips-ec.patch  && \
-  patch -p1 < ../openssl-src/openssl-1.0.2a-fips-ctor.patch  && \
-  patch -p1 < ../openssl-src/openssl-1.0.2i-new-fips-reqs.patch  && \
-  patch -p1 < ../openssl-src/openssl-gcc-attributes.patch  && \
-  patch -p1 < ../openssl-src/0001-Axe-builtin-printf-implementation-use-glibc-instead.patch  && \
-  patch -p1 < ../openssl-src/openssl-no-egd.patch  && \
-  patch -p1 < ../openssl-src/openssl-fips-hidden.patch  && \
-  patch -p1 < ../openssl-src/openssl-1.0.1e-add-suse-default-cipher.patch  && \
-  patch -p1 < ../openssl-src/openssl-1.0.1e-add-test-suse-default-cipher-suite.patch  && \
-  patch -p1 < ../openssl-src/openssl-missing_FIPS_ec_group_new_by_curve_name.patch  && \
-  patch -p1 < ../openssl-src/openssl-fips-dont_run_FIPS_module_installed.patch  && \
-  patch -p1 < ../openssl-src/openssl-fips_disallow_x931_rand_method.patch  && \
-  patch -p1 < ../openssl-src/openssl-fips_disallow_ENGINE_loading.patch  && \
-  patch -p1 < ../openssl-src/openssl-rsakeygen-minimum-distance.patch  && \
-  patch -p1 < ../openssl-src/openssl-urandom-reseeding.patch  && \
-  patch -p1 < ../openssl-src/openssl-fips-rsagen-d-bits.patch  && \
-  patch -p1 < ../openssl-src/openssl-fips-selftests_in_nonfips_mode.patch  && \
-  patch -p1 < ../openssl-src/openssl-fips-fix-odd-rsakeybits.patch  && \
-  patch -p1 < ../openssl-src/openssl-fips-clearerror.patch  && \
-  patch -p1 < ../openssl-src/openssl-fips-dont-fall-back-to-default-digest.patch  && \
-  patch -p1 < ../openssl-src/openssl-fipslocking.patch  && \
-  patch -p1 < ../openssl-src/openssl-randfile_fread_interrupt.patch  && \
-  patch -p1 < ../openssl-src/openssl-fips-xts_nonidentical_key_parts.patch  && \
-  patch -p1 < ../openssl-src/openssl-fips_add_cavs_tests.patch  && \
-  patch -p1 < ../openssl-src/openssl-fips-OPENSSL_s390xcap.patch  && \
-  patch -p1 < ../openssl-src/openssl-fips_cavs_helpers_run_in_fips_mode.patch  && \
-  patch -p1 < ../openssl-src/openssl-fips_cavs_pad_with_zeroes.patch  && \
-  patch -p1 < ../openssl-src/openssl-fips_cavs_aes_keywrap.patch  && \
-  patch -p1 < ../openssl-src/openssl-fips-run_selftests_only_when_module_is_complete.patch  && \
-  patch -p1 -R < ../openssl-src/0001-Set-FIPS-thread-id-callback.patch  && \
-  patch -p1 < ../openssl-src/openssl-CVE-2018-0737-fips.patch  && \
+  patch -p1 < ../openssl-src/openssl-1.0.0-c_rehash-compat.diff && \
+  patch -p1 < ../openssl-src/openssl-engines-path.patch && \
+  patch -p1 < ../openssl-src/openssl-1.0.0-version.patch && \
+  patch -p1 < ../openssl-src/openssl-1.0.2a-padlock64.patch && \
+  patch -p1 < ../openssl-src/openssl-fix-pod-syntax.diff && \
+  patch -p1 < ../openssl-src/openssl-truststore.patch && \
+  patch -p1 < ../openssl-src/compression_methods_switch.patch && \
+  patch -p1 < ../openssl-src/openssl-1.0.2a-default-paths.patch && \
+  patch -p1 < ../openssl-src/openssl-pkgconfig.patch && \
+  patch -p1 < ../openssl-src/openssl-1.0.2a-ipv6-apps.patch && \
+  patch -p1 < ../openssl-src/openssl-riscv64-config.patch && \
+  patch -p1 < ../openssl-src/openssl-1.0.2i-fips.patch && \
+  patch -p1 < ../openssl-src/openssl-1.0.2a-fips-ec.patch && \
+  patch -p1 < ../openssl-src/openssl-1.0.2a-fips-ctor.patch && \
+  patch -p1 < ../openssl-src/openssl-1.0.2i-new-fips-reqs.patch && \
+  patch -p1 < ../openssl-src/openssl-gcc-attributes.patch && \
+  patch -p1 < ../openssl-src/0001-Axe-builtin-printf-implementation-use-glibc-instead.patch && \
+  patch -p1 < ../openssl-src/openssl-no-egd.patch && \
+  patch -p1 < ../openssl-src/openssl-fips-hidden.patch && \
+  patch -p1 < ../openssl-src/openssl-1.0.1e-add-suse-default-cipher.patch && \
+  patch -p1 < ../openssl-src/openssl-1.0.1e-add-test-suse-default-cipher-suite.patch && \
+  patch -p1 < ../openssl-src/openssl-missing_FIPS_ec_group_new_by_curve_name.patch && \
+  patch -p1 < ../openssl-src/openssl-fips-dont_run_FIPS_module_installed.patch && \
+  patch -p1 < ../openssl-src/openssl-fips_disallow_x931_rand_method.patch && \
+  patch -p1 < ../openssl-src/openssl-fips_disallow_ENGINE_loading.patch && \
+  patch -p1 < ../openssl-src/openssl-rsakeygen-minimum-distance.patch && \
+  patch -p1 < ../openssl-src/openssl-urandom-reseeding.patch && \
+  patch -p1 < ../openssl-src/openssl-fips-rsagen-d-bits.patch && \
+  patch -p1 < ../openssl-src/openssl-fips-selftests_in_nonfips_mode.patch && \
+  patch -p1 < ../openssl-src/openssl-fips-fix-odd-rsakeybits.patch && \
+  patch -p1 < ../openssl-src/openssl-fips-clearerror.patch && \
+  patch -p1 < ../openssl-src/openssl-fips-dont-fall-back-to-default-digest.patch && \
+  patch -p1 < ../openssl-src/openssl-fipslocking.patch && \
+  patch -p1 < ../openssl-src/openssl-randfile_fread_interrupt.patch && \
+  patch -p1 < ../openssl-src/openssl-fips-xts_nonidentical_key_parts.patch && \
+  patch -p1 < ../openssl-src/openssl-fips_add_cavs_tests.patch && \
+  patch -p1 < ../openssl-src/openssl-fips-OPENSSL_s390xcap.patch && \
+  patch -p1 < ../openssl-src/openssl-fips_cavs_helpers_run_in_fips_mode.patch && \
+  patch -p1 < ../openssl-src/openssl-fips_cavs_pad_with_zeroes.patch && \
+  patch -p1 < ../openssl-src/openssl-fips_cavs_aes_keywrap.patch && \
+  patch -p1 < ../openssl-src/openssl-fips-run_selftests_only_when_module_is_complete.patch && \
+  patch -p1 -R < ../openssl-src/0001-Set-FIPS-thread-id-callback.patch && \
+  patch -p1 < ../openssl-src/openssl-CVE-2018-0737-fips.patch && \
   patch -p1 < ../openssl-src/openssl-One_and_Done.patch && \
+  patch -p1 < ../openssl-src/openssl-CVE-2021-23840.patch && \
+  patch -p1 < ../openssl-src/openssl-CVE-2021-23841.patch && \
+  patch -p1 < ../openssl-src/openssl-1.0.0-pic-pie.patch && \
+  patch -p1 < ../openssl-src/openssl-DH.patch && \
+  patch -p1 < ../openssl-src/openssl-add_rfc3526_rfc7919.patch && \
+  patch -p1 < ../openssl-src/CVE-2021-3712-ASN1_STRING-issues.patch && \
+  patch -p1 < ../openssl-src/openssl-CVE-2022-1292.patch && \
+  patch -p1 < ../openssl-src/openssl-1_0_0-Fix-file-operations-in-c_rehash.patch && \
+  patch -p1 < ../openssl-src/openssl-fix-cpuid_setup.patch && \
+  #patch -p1 < ../openssl-src/openssl-1.0.2e-rpmbuild.patch && \ causes  OpenSSL internal error, assertion failed: FATAL FIPS SELFTEST FAILURE
+  find . -name '*.orig' -delete && \
   ./config --prefix=/opt/ruby --openssldir=/etc/ssl/ \
-    threads shared no-rc5 no-idea fips no-ssl2 no-ssl3 enable-rfc3779 \
-    enable-ec_nistp_64_gcc_128 enable-camellia zlib no-ec2m \
+    threads shared no-rc5 no-idea \
+    fips \
+    no-ssl2 \
+    no-ssl3 \
+    enable-rfc3779 \
+    enable-ec_nistp_64_gcc_128 \
+    enable-camellia \
+    zlib \
+    no-ec2m \
     ${CFLAGS} \
     -std=gnu99 \
     -Wa,--noexecstack \
@@ -94,6 +113,17 @@ RUN patch -p1 < ../openssl-src/merge_from_0.9.8k.patch && \
     -DOPENSSL_NO_BUF_FREELISTS \
     -Wall && \
   make depend && \
+  make && \
+  make install && \
+  ldconfig
+
+WORKDIR /build  
+RUN tar jxf curl-7.85.0.tar.bz2
+WORKDIR /build/curl-7.85.0
+RUN LDFLAGS="-L/opt/ruby/lib" ./configure   \
+  --prefix=/opt/ruby  \
+  --with-nghttp2 \
+  --with-openssl && \
   make && \
   make install && \
   ldconfig
@@ -132,33 +162,6 @@ RUN sed -i 's:^\(CONFIGURE_RELATIVE_PATH=.*\):\1_Q16-2:' configure.ac && \
   ldconfig
 
 RUN patch --dir /opt/ruby/etc/ImageMagick-6_Q16-2 < ../im-src/ImageMagick-configuration-SUSE.patch
-  
-WORKDIR /build  
-RUN tar zxf mariadb-connector-c-3.1.9-src.tar.gz
-WORKDIR /build/mariadb-connector-c-3.1.9-src
-RUN cmake -DWITH_EXTERNAL_ZLIB:BOOL=ON \
-  -DMARIADB_UNIX_ADDR:STRING=/run/mysql/mysql.sock \
-  -DCMAKE_INSTALL_PREFIX:STRING=/opt/ruby \
-  -DINSTALL_LIBDIR:STRING=/opt/ruby/lib \
-  -DINSTALL_INCLUDEDIR:STRING=/opt/ruby/include/mysql \
-  -DINSTALL_PLUGINDIR:STRING=/opt/ruby/lib/mysql/plugin/ \
-  -DWITH_MYSQLCOMPAT=ON \
-  -DWITH_SSL=OPENSSL \
-  -DINSTALL_PCDIR="/opt/ruby/lib/pkgconfig" && \
-  make && \
-  make install && \
-  ldconfig && \
-  ln -sf /opt/ruby/bin/mariadb_config /opt/ruby/bin/mysql_config 
-
-WORKDIR /build  
-RUN tar jxf curl-7.70.0.tar.bz2
-WORKDIR /build/curl-7.70.0
-RUN LDFLAGS="-L/opt/ruby/lib" ./configure   \
-  --prefix=/opt/ruby  \
-  --with-nghttp2 && \
-  make && \
-  make install && \
-  ldconfig
 
 ADD AddTrust_External_CA_Root.p11-kit /etc/pki/trust/blacklist/AddTrust_External_CA_Root.p11-kit
 ADD DST_Root_CA_X3.pem /etc/pki/trust/blacklist/DST_Root_CA_X3.pem
@@ -167,40 +170,6 @@ RUN update-ca-certificates
 WORKDIR /build
 RUN git clone https://github.com/rbenv/ruby-build.git
 WORKDIR /build/ruby-build
+RUN git checkout v20220721
 RUN PREFIX=/usr/local ./install.sh
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

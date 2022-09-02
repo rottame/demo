@@ -4,6 +4,8 @@ FROM ruby-buildenv-base-${LEAP_VERSION} AS build
 WORKDIR /build  
 RUN tar zxf mariadb-connector-c-2.3.7-src.tar.gz
 WORKDIR /build/mariadb-connector-c-2.3.7-src
+ADD mariadb-connector-c-2x-cmake-fix.diff mariadb-connector-c-2x-cmake-fix.diff
+RUN patch -p1 < mariadb-connector-c-2x-cmake-fix.diff
 RUN cmake -DWITH_EXTERNAL_ZLIB:BOOL=ON \
   -DMARIADB_UNIX_ADDR:STRING=/run/mysql/mysql.sock \
   -DCMAKE_INSTALL_PREFIX:STRING=/opt/ruby \
