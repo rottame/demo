@@ -2,6 +2,7 @@
 			  ruby-1.9 ruby-2.0 ruby-2.1 ruby-2.2 ruby-2.3 \
 			  ruby-2.4 ruby-2.5 ruby-2.6 ruby-2.7
 
+IMAGE_NAME=docker-reg.intercom.it/intercom/ruby
 R_25_VERSION=2.5.9
 R_26_VERSION=2.6.10
 R_27_VERSION=2.7.6
@@ -164,41 +165,41 @@ _ruby_build:
 		--build-arg VERSION=${RUBY_VERSION} \
 		-t ruby:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION} -f ruby-${RUBY_MINOR_VERSION}.dockerfile . || exit 1
 
-	docker tag ruby:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION} docker-reg.intercom.it/intercom/ruby:${RUBY_VERSION}
-	docker tag ruby:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION} docker-reg.intercom.it/intercom/ruby:${RUBY_VERSION}-leap
-	docker tag ruby:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION} docker-reg.intercom.it/intercom/ruby:${RUBY_VERSION}-leap${LEAP_VERSION}
-	docker tag ruby:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION} docker-reg.intercom.it/intercom/ruby:${RUBY_VERSION}-leap${LEAP_VERSION}-${DATE}
-	docker tag ruby:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION} docker-reg.intercom.it/intercom/ruby:${RUBY_MINOR_VERSION}
-	docker tag ruby:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION} docker-reg.intercom.it/intercom/ruby:${RUBY_MINOR_VERSION}-leap
-	docker tag ruby:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION} docker-reg.intercom.it/intercom/ruby:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION}
-	docker tag ruby:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION} docker-reg.intercom.it/intercom/ruby:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION}-${DATE}
+	docker tag ruby:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION} ${IMAGE_NAME}:${RUBY_VERSION}
+	docker tag ruby:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION} ${IMAGE_NAME}:${RUBY_VERSION}-leap
+	docker tag ruby:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION} ${IMAGE_NAME}:${RUBY_VERSION}-leap${LEAP_VERSION}
+	docker tag ruby:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION} ${IMAGE_NAME}:${RUBY_VERSION}-leap${LEAP_VERSION}-${DATE}
+	docker tag ruby:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION} ${IMAGE_NAME}:${RUBY_MINOR_VERSION}
+	docker tag ruby:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION} ${IMAGE_NAME}:${RUBY_MINOR_VERSION}-leap
+	docker tag ruby:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION} ${IMAGE_NAME}:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION}
+	docker tag ruby:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION} ${IMAGE_NAME}:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION}-${DATE}
 
 	docker build \
 		--build-arg LEAP_VERSION=${LEAP_VERSION} \
 		-t ruby:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION} -f ruby-${RUBY_MINOR_VERSION}-slim.dockerfile . || exit 1
-	docker tag ruby:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION} docker-reg.intercom.it/intercom/ruby:${RUBY_VERSION}-slim
-	docker tag ruby:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION} docker-reg.intercom.it/intercom/ruby:${RUBY_VERSION}-slim-leap
-	docker tag ruby:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION} docker-reg.intercom.it/intercom/ruby:${RUBY_VERSION}-slim-leap${LEAP_VERSION}
-	docker tag ruby:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION} docker-reg.intercom.it/intercom/ruby:${RUBY_VERSION}-slim-leap${LEAP_VERSION}-${DATE}
-	docker tag ruby:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION} docker-reg.intercom.it/intercom/ruby:${RUBY_MINOR_VERSION}-slim
-	docker tag ruby:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION} docker-reg.intercom.it/intercom/ruby:${RUBY_MINOR_VERSION}-slim-leap
-	docker tag ruby:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION} docker-reg.intercom.it/intercom/ruby:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION}
-	docker tag ruby:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION} docker-reg.intercom.it/intercom/ruby:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION}-${DATE}
+	docker tag ruby:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION} ${IMAGE_NAME}:${RUBY_VERSION}-slim
+	docker tag ruby:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION} ${IMAGE_NAME}:${RUBY_VERSION}-slim-leap
+	docker tag ruby:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION} ${IMAGE_NAME}:${RUBY_VERSION}-slim-leap${LEAP_VERSION}
+	docker tag ruby:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION} ${IMAGE_NAME}:${RUBY_VERSION}-slim-leap${LEAP_VERSION}-${DATE}
+	docker tag ruby:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION} ${IMAGE_NAME}:${RUBY_MINOR_VERSION}-slim
+	docker tag ruby:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION} ${IMAGE_NAME}:${RUBY_MINOR_VERSION}-slim-leap
+	docker tag ruby:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION} ${IMAGE_NAME}:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION}
+	docker tag ruby:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION} ${IMAGE_NAME}:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION}-${DATE}
 
 _ruby_push:
-	docker push docker-reg.intercom.it/intercom/ruby:${RUBY_VERSION}
-	docker push docker-reg.intercom.it/intercom/ruby:${RUBY_VERSION}-leap
-	docker push docker-reg.intercom.it/intercom/ruby:${RUBY_VERSION}-leap${LEAP_VERSION}
-	docker push docker-reg.intercom.it/intercom/ruby:${RUBY_VERSION}-leap${LEAP_VERSION}-${DATE}
-	docker push docker-reg.intercom.it/intercom/ruby:${RUBY_MINOR_VERSION}
-	docker push docker-reg.intercom.it/intercom/ruby:${RUBY_MINOR_VERSION}-leap
-	docker push docker-reg.intercom.it/intercom/ruby:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION}
-	docker push docker-reg.intercom.it/intercom/ruby:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION}-${DATE}
-	docker push docker-reg.intercom.it/intercom/ruby:${RUBY_VERSION}-slim
-	docker push docker-reg.intercom.it/intercom/ruby:${RUBY_VERSION}-slim-leap
-	docker push docker-reg.intercom.it/intercom/ruby:${RUBY_VERSION}-slim-leap${LEAP_VERSION}
-	docker push docker-reg.intercom.it/intercom/ruby:${RUBY_VERSION}-slim-leap${LEAP_VERSION}-${DATE}
-	docker push docker-reg.intercom.it/intercom/ruby:${RUBY_MINOR_VERSION}-slim
-	docker push docker-reg.intercom.it/intercom/ruby:${RUBY_MINOR_VERSION}-slim-leap
-	docker push docker-reg.intercom.it/intercom/ruby:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION}
-	docker push docker-reg.intercom.it/intercom/ruby:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION}-${DATE}
+	docker push ${IMAGE_NAME}:${RUBY_VERSION}
+	docker push ${IMAGE_NAME}:${RUBY_VERSION}-leap
+	docker push ${IMAGE_NAME}:${RUBY_VERSION}-leap${LEAP_VERSION}
+	docker push ${IMAGE_NAME}:${RUBY_VERSION}-leap${LEAP_VERSION}-${DATE}
+	docker push ${IMAGE_NAME}:${RUBY_MINOR_VERSION}
+	docker push ${IMAGE_NAME}:${RUBY_MINOR_VERSION}-leap
+	docker push ${IMAGE_NAME}:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION}
+	docker push ${IMAGE_NAME}:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION}-${DATE}
+	docker push ${IMAGE_NAME}:${RUBY_VERSION}-slim
+	docker push ${IMAGE_NAME}:${RUBY_VERSION}-slim-leap
+	docker push ${IMAGE_NAME}:${RUBY_VERSION}-slim-leap${LEAP_VERSION}
+	docker push ${IMAGE_NAME}:${RUBY_VERSION}-slim-leap${LEAP_VERSION}-${DATE}
+	docker push ${IMAGE_NAME}:${RUBY_MINOR_VERSION}-slim
+	docker push ${IMAGE_NAME}:${RUBY_MINOR_VERSION}-slim-leap
+	docker push ${IMAGE_NAME}:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION}
+	docker push ${IMAGE_NAME}:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION}-${DATE}
