@@ -16,4 +16,5 @@ build-push-docker-image-job:
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - apk add make
+    - make IMAGE_NAME=$CI_REGISTRY_IMAGE
     - make IMAGE_NAME=$CI_REGISTRY_IMAGE push
