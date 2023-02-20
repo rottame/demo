@@ -22,18 +22,18 @@ ENV CFLAGS "-O2 -g -m64 -fmessage-length=0 -D_FORTIFY_SOURCE=2 -fstack-protector
 
 RUN mkdir /build
 WORKDIR /build
-RUN wget https://repos.obs.intercom.it/home:/rottame:/vhosts-ng/15.4/src/ImageMagick6-6.8.8.1-lp154.82.1.src.rpm && \
-  wget https://download.opensuse.org/repositories/security:/tls/15.4/src/openssl-1_0_0-1.0.2u-lp154.92.2.src.rpm && \
-  wget https://downloads.mariadb.com/Connectors/c/connector-c-3.3.2/mariadb-connector-c-3.3.2-src.tar.gz && \
-  wget https://downloads.mariadb.com/Connectors/c/connector-c-2.3.7/mariadb-connector-c-2.3.7-src.tar.gz && \
-  wget https://github.com/curl/curl/releases/download/curl-7_85_0/curl-7.85.0.tar.bz2 && \
-  mkdir openssl-src im-src && \
-  cd openssl-src && \
-  rpm2cpio ../openssl-1_0_0-1.0.2u-lp154.92.2.src.rpm | cpio -id && \
-  cd ../im-src && \
-  rpm2cpio ../ImageMagick6-6.8.8.1-lp154.82.1.src.rpm | cpio -id
+RUN wget https://repos.obs.intercom.it/home:/rottame:/vhosts-ng/15.4/src/ImageMagick6-6.8.8.1-lp154.82.1.src.rpm
+RUN wget https://download.opensuse.org/repositories/security:/tls/15.4/src/openssl-1_0_0-1.0.2u-lp154.93.1.src.rpm
+RUN wget https://downloads.mariadb.com/Connectors/c/connector-c-3.3.2/mariadb-connector-c-3.3.2-src.tar.gz
+RUN wget https://downloads.mariadb.com/Connectors/c/connector-c-2.3.7/mariadb-connector-c-2.3.7-src.tar.gz
+RUN wget https://github.com/curl/curl/releases/download/curl-7_85_0/curl-7.85.0.tar.bz2
+RUN mkdir openssl-src im-src
+WORKDIR /build/openssl-src
+RUN rpm2cpio ../openssl-1_0_0-1.0.2u-lp154.93.1.src.rpm | cpio -id
+WORKDIR /build/im-src
+RUN rpm2cpio ../ImageMagick6-6.8.8.1-lp154.82.1.src.rpm | cpio -id
 
-
+WORKDIR /build
 RUN tar zxf openssl-src/openssl-1.0.2u.tar.gz
 WORKDIR /build/openssl-1.0.2u
 RUN patch -p1 < ../openssl-src/merge_from_0.9.8k.patch && \
@@ -91,6 +91,12 @@ RUN patch -p1 < ../openssl-src/merge_from_0.9.8k.patch && \
   patch -p1 < ../openssl-src/openssl-1_0_0-Fix-file-operations-in-c_rehash.patch && \
   patch -p1 < ../openssl-src/openssl-1_0_0-paramgen-default_to_rfc7919.patch && \
   patch -p1 < ../openssl-src/openssl-Update-further-expiring-certificates.patch && \
+  patch -p1 < ../openssl-src/openssl-CVE-2020-1971.patch && \
+  patch -p1 < ../openssl-src/openssl-CVE-2022-4304.patch && \
+  patch -p1 < ../openssl-src/openssl-CVE-2023-0215-1of4.patch && \
+  patch -p1 < ../openssl-src/openssl-CVE-2023-0215-3of4.patch && \
+  patch -p1 < ../openssl-src/openssl-CVE-2023-0215-4of4.patch && \
+  patch -p1 < ../openssl-src/openssl-CVE-2023-0286.patch && \
   patch -p1 < ../openssl-src/openssl-fix-cpuid_setup.patch && \
   #patch -p1 < ../openssl-src/openssl-1.0.2e-rpmbuild.patch && \ causes  OpenSSL internal error, assertion failed: FATAL FIPS SELFTEST FAILURE
   find . -name '*.orig' -delete && \
