@@ -23,13 +23,13 @@ ENV CFLAGS "-O2 -g -m64 -fmessage-length=0 -D_FORTIFY_SOURCE=2 -fstack-protector
 RUN mkdir /build
 WORKDIR /build
 RUN wget https://repos.obs.intercom.it/home:/rottame:/vhosts-ng/15.4/src/ImageMagick6-6.8.8.1-lp154.82.1.src.rpm
-RUN wget https://download.opensuse.org/repositories/security:/tls/15.4/src/openssl-1_0_0-1.0.2u-lp154.98.1.src.rpm
+RUN wget https://download.opensuse.org/repositories/security:/tls/15.4/src/openssl-1_0_0-1.0.2u-lp154.104.1.src.rpm
 RUN wget https://downloads.mariadb.com/Connectors/c/connector-c-3.3.2/mariadb-connector-c-3.3.2-src.tar.gz
 RUN wget https://downloads.mariadb.com/Connectors/c/connector-c-2.3.7/mariadb-connector-c-2.3.7-src.tar.gz
 RUN wget https://github.com/curl/curl/releases/download/curl-7_85_0/curl-7.85.0.tar.bz2
 RUN mkdir openssl-src im-src
 WORKDIR /build/openssl-src
-RUN rpm2cpio ../openssl-1_0_0-1.0.2u-lp154.98.1.src.rpm | cpio -id
+RUN rpm2cpio ../openssl-1_0_0-1.0.2u-lp154.104.1.src.rpm | cpio -id
 WORKDIR /build/im-src
 RUN rpm2cpio ../ImageMagick6-6.8.8.1-lp154.82.1.src.rpm | cpio -id
 
@@ -98,7 +98,11 @@ RUN patch -p1 < ../openssl-src/merge_from_0.9.8k.patch && \
  patch -p1 < ../openssl-src/openssl-CVE-2023-0215-4of4.patch && \
  patch -p1 < ../openssl-src/openssl-CVE-2023-0286.patch && \
  patch -p1 < ../openssl-src/openssl-fips_fix_DH_key_generation.patch && \
+ patch -p1 < ../openssl-src/openssl-CVE-2023-0464.patch && \
+ patch -p1 < ../openssl-src/openssl-CVE-2023-0465.patch && \
+ patch -p1 < ../openssl-src/openssl-CVE-2023-0466.patch && \
  patch -p1 < ../openssl-src/openssl-fix-cpuid_setup.patch
+
 #RUN patch -p1 < ../openssl-src/openssl-1.0.2e-rpmbuild.patch && \ causes  OpenSSL internal error, assertion failed: FATAL FIPS SELFTEST FAILURE
 RUN find . -name '*.orig' -delete && \
   ./config --prefix=/opt/ruby --openssldir=/etc/ssl/ \
