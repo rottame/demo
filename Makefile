@@ -10,20 +10,20 @@ LEAP_VERSION=15.4
 $(eval DATE=$(shell date +%Y%m%d))
 
 all: tmp/build_images ruby-1.9 ruby-2.0 ruby-2.1 ruby-2.2 ruby-2.3 \
-			ruby-2.4 ruby-2.5 ruby-2.6 ruby-2.7 
+			ruby-2.4 ruby-2.5 ruby-2.6 ruby-2.7
 
 tmp/build_images: tmp tmp/buildenv tmp/slim-base tmp/devel-base
 	touch tmp/build_images
 
 tmp/buildenv: tmp/buildenv-old tmp/buildenv-new
 	touch tmp/buildenv
-	
+
 tmp/slim-base: tmp/slim-base-old tmp/slim-base-new
 	touch tmp/slim-base
-	
+
 tmp/devel-base: tmp/devel-base-old tmp/devel-base-new
 	touch tmp/devel-base
-	
+
 
 ruby-1.9: tmp/ruby-1.9
 
@@ -97,7 +97,7 @@ tmp/slim-base-old: slim-base.dockerfile
 		--build-arg LEAP_VERSION=${LEAP_VERSION} \
 		-t ruby-slim-base-${LEAP_VERSION} -f slim-base.dockerfile . || exit 1
 	touch tmp/slim-base-old
-	
+
 tmp/devel-base-old: tmp/slim-base-old
 	docker build  \
 		--build-arg LEAP_VERSION=${LEAP_VERSION} \
@@ -114,7 +114,7 @@ tmp/slim-base-new: slim-base-new.dockerfile
 	docker build \
 		--build-arg LEAP_VERSION=${LEAP_VERSION} \
 		-t ruby-slim-base-new-${LEAP_VERSION} -f slim-base-new.dockerfile . || exit 1
-	touch tmp/slim-base-new	
+	touch tmp/slim-base-new
 
 tmp/devel-base-new: tmp/slim-base-new devel-base-new.dockerfile
 	docker build \
@@ -159,7 +159,7 @@ tmp/ruby-2.7: tmp/build_images ruby-2.7.dockerfile ruby-2.7-slim.dockerfile
 	touch tmp/ruby-2.7
 
 
-_ruby_build: 
+_ruby_build:
 	docker build \
 		--build-arg LEAP_VERSION=${LEAP_VERSION} \
 		--build-arg VERSION=${RUBY_VERSION} \
