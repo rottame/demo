@@ -14,7 +14,17 @@ $(eval DATE=$(shell date +%Y%m%d))
 all: tmp/build_images ruby-1.9 ruby-2.0 ruby-2.1 ruby-2.2 ruby-2.3 \
 			ruby-2.4 ruby-2.5 ruby-2.6 ruby-2.7 ruby-3.1 ruby-3.2
 
-tmp/build_images: tmp tmp/buildenv tmp/slim-base tmp/devel-base
+push: all push-ruby-1.9 push-ruby-2.0 push-ruby-2.1 push-ruby-2.2 \
+			push-ruby-2.3 push-ruby-2.4 push-ruby-2.5 push-ruby-2.6 push-ruby-2.7 \
+			push-ruby-3.1 push-ruby-3.2
+
+clean: rm -rf tmp
+
+tmp/build_images: Makefile
+	make tmp
+	make tmp/buildenv
+	make tmp/slim-base
+	make tmp/devel-base
 	touch tmp/build_images
 
 tmp/buildenv: tmp/buildenv-old tmp/buildenv-new
@@ -87,11 +97,6 @@ tmp: Makefile
 	mkdir -p tmp
 	touch tmp
 
-clean: rm -rf tmp
-push: all push-ruby-1.9 push-ruby-2.0 push-ruby-2.1 push-ruby-2.2 \
-			push-ruby-2.3 push-ruby-2.4 push-ruby-2.5 push-ruby-2.6 push-ruby-2.7 \
-			push-ruby-3.1 push-ruby-3.2
-
 tmp/buildenv-old: buildenv.dockerfile buildenv-mariadb-connector-3.dockerfile buildenv-mariadb-connector-2.dockerfile
 	docker build  \
 		--build-arg LEAP_VERSION=${LEAP_VERSION} \
@@ -134,48 +139,59 @@ tmp/devel-base-new: tmp/slim-base-new devel-base-new.dockerfile
 		-t ruby-base-new-${LEAP_VERSION} -f devel-base-new.dockerfile . || exit 1
 	touch tmp/devel-base-new
 
-tmp/ruby-1.9: tmp/build_images ruby-1.9.dockerfile ruby-1.9-slim.dockerfile
+tmp/ruby-1.9: tmp/build_images ruby-1.9.dockerfile
 	make _ruby_build RUBY_MINOR_VERSION=1.9 RUBY_VERSION=1.9.3
+	make _ruby_tag RUBY_MINOR_VERSION=1.9 RUBY_VERSION=1.9.3
 	touch tmp/ruby-1.9
 
-tmp/ruby-2.0: tmp/build_images ruby-2.0.dockerfile ruby-2.0-slim.dockerfile
+tmp/ruby-2.0: tmp/build_images ruby-2.0.dockerfile
 	make _ruby_build RUBY_MINOR_VERSION=2.0 RUBY_VERSION=2.0.0
+	make _ruby_tag RUBY_MINOR_VERSION=2.0 RUBY_VERSION=2.0.0
 	touch tmp/ruby-2.0
 
-tmp/ruby-2.1: tmp/build_images ruby-2.1.dockerfile ruby-2.1-slim.dockerfile
+tmp/ruby-2.1: tmp/build_images ruby-2.1.dockerfile
 	make _ruby_build RUBY_MINOR_VERSION=2.1 RUBY_VERSION=2.1.10
+	make _ruby_tag RUBY_MINOR_VERSION=2.1 RUBY_VERSION=2.1.10
 	touch tmp/ruby-2.1
 
-tmp/ruby-2.2: tmp/build_images ruby-2.2.dockerfile ruby-2.2-slim.dockerfile
+tmp/ruby-2.2: tmp/build_images ruby-2.2.dockerfile
 	make _ruby_build RUBY_MINOR_VERSION=2.2 RUBY_VERSION=2.2.10
+	make _ruby_tag RUBY_MINOR_VERSION=2.2 RUBY_VERSION=2.2.10
 	touch tmp/ruby-2.2
 
-tmp/ruby-2.3: tmp/build_images ruby-2.3.dockerfile ruby-2.3-slim.dockerfile
+tmp/ruby-2.3: tmp/build_images ruby-2.3.dockerfile
 	make _ruby_build RUBY_MINOR_VERSION=2.3 RUBY_VERSION=2.3.8
+	make _ruby_tag RUBY_MINOR_VERSION=2.3 RUBY_VERSION=2.3.8
 	touch tmp/ruby-2.3
 
-tmp/ruby-2.4: tmp/build_images ruby-2.4.dockerfile ruby-2.4-slim.dockerfile
-	make _ruby_build RUBY_MINOR_VERSION=2.4 RUBY_VERSION=2.4.10
+tmp/ruby-2.4: tmp/build_images ruby-new.dockerfile
+	make _ruby_build_new RUBY_MINOR_VERSION=2.4 RUBY_VERSION=2.4.10
+	make _ruby_tag RUBY_MINOR_VERSION=2.4 RUBY_VERSION=2.4.10
 	touch tmp/ruby-2.4
 
-tmp/ruby-2.5: tmp/build_images ruby-2.5.dockerfile ruby-2.5-slim.dockerfile
-	make _ruby_build RUBY_MINOR_VERSION=2.5 RUBY_VERSION=${R_25_VERSION}
+tmp/ruby-2.5: tmp/build_images ruby-new.dockerfile
+	make _ruby_build_new RUBY_MINOR_VERSION=2.5 RUBY_VERSION=${R_25_VERSION}
+	make _ruby_tag RUBY_MINOR_VERSION=2.5 RUBY_VERSION=${R_25_VERSION}
 	touch tmp/ruby-2.5
 
-tmp/ruby-2.6: tmp/build_images ruby-2.6.dockerfile ruby-2.6-slim.dockerfile
-	make _ruby_build RUBY_MINOR_VERSION=2.6 RUBY_VERSION=${R_26_VERSION}
+tmp/ruby-2.6: tmp/build_images ruby-new.dockerfile
+	make _ruby_build_new RUBY_MINOR_VERSION=2.6 RUBY_VERSION=${R_26_VERSION}
+	make _ruby_tag RUBY_MINOR_VERSION=2.6 RUBY_VERSION=${R_26_VERSION}
 	touch tmp/ruby-2.6
 
-tmp/ruby-2.7: tmp/build_images ruby-2.7.dockerfile ruby-2.7-slim.dockerfile
-	make _ruby_build RUBY_MINOR_VERSION=2.7 RUBY_VERSION=${R_27_VERSION}
+tmp/ruby-2.7: tmp/build_images ruby-new.dockerfile
+	make _ruby_build_new RUBY_MINOR_VERSION=2.7 RUBY_VERSION=${R_27_VERSION}
+	make _ruby_tag RUBY_MINOR_VERSION=2.7 RUBY_VERSION=${R_27_VERSION}
 	touch tmp/ruby-2.7
 
-tmp/ruby-3.1: tmp/build_images ruby-3.1.dockerfile ruby-3.1-slim.dockerfile
-	make _ruby_build RUBY_MINOR_VERSION=3.1 RUBY_VERSION=${R_31_VERSION}
+tmp/ruby-3.1: tmp/build_images ruby-new.dockerfile
+	make _ruby_build_new RUBY_MINOR_VERSION=3.1 RUBY_VERSION=${R_31_VERSION}
+	make _ruby_tag RUBY_MINOR_VERSION=3.1 RUBY_VERSION=${R_31_VERSION}
 	touch tmp/ruby-3.1
 
-tmp/ruby-3.2: tmp/build_images ruby-3.2.dockerfile ruby-3.2-slim.dockerfile
-	make _ruby_build RUBY_MINOR_VERSION=3.2 RUBY_VERSION=${R_32_VERSION}
+tmp/ruby-3.2: tmp/build_images ruby-new.dockerfile
+	make _ruby_build_new RUBY_MINOR_VERSION=3.2 RUBY_VERSION=${R_32_VERSION}
+	make _ruby_tag RUBY_MINOR_VERSION=3.2 RUBY_VERSION=${R_32_VERSION}
 	touch tmp/ruby-3.2
 
 
@@ -183,8 +199,33 @@ _ruby_build:
 	docker build \
 		--build-arg LEAP_VERSION=${LEAP_VERSION} \
 		--build-arg VERSION=${RUBY_VERSION} \
+		--target release \
+		--progress plain \
 		-t ruby:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION} -f ruby-${RUBY_MINOR_VERSION}.dockerfile . || exit 1
 
+	docker build \
+		--build-arg LEAP_VERSION=${LEAP_VERSION} \
+		--build-arg VERSION=${RUBY_VERSION} \
+		--target slim-release \
+		--progress plain \
+		-t ruby:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION} -f ruby-${RUBY_MINOR_VERSION}.dockerfile . || exit 1
+
+_ruby_build_new:
+	docker build \
+		--build-arg LEAP_VERSION=${LEAP_VERSION} \
+		--build-arg VERSION=${RUBY_VERSION} \
+		--target release \
+		--progress plain \
+		-t ruby:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION} -f ruby-new.dockerfile . || exit 1
+
+	docker build \
+		--build-arg LEAP_VERSION=${LEAP_VERSION} \
+		--build-arg VERSION=${RUBY_VERSION} \
+		--target slim-release \
+		--progress plain \
+		-t ruby:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION} -f ruby-new.dockerfile . || exit 1
+
+_ruby_tag:
 	docker tag ruby:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION} ${IMAGE_NAME}:${RUBY_VERSION}
 	docker tag ruby:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION} ${IMAGE_NAME}:${RUBY_VERSION}-leap
 	docker tag ruby:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION} ${IMAGE_NAME}:${RUBY_VERSION}-leap${LEAP_VERSION}
@@ -194,9 +235,6 @@ _ruby_build:
 	docker tag ruby:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION} ${IMAGE_NAME}:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION}
 	docker tag ruby:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION} ${IMAGE_NAME}:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION}-${DATE}
 
-	docker build \
-		--build-arg LEAP_VERSION=${LEAP_VERSION} \
-		-t ruby:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION} -f ruby-${RUBY_MINOR_VERSION}-slim.dockerfile . || exit 1
 	docker tag ruby:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION} ${IMAGE_NAME}:${RUBY_VERSION}-slim
 	docker tag ruby:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION} ${IMAGE_NAME}:${RUBY_VERSION}-slim-leap
 	docker tag ruby:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION} ${IMAGE_NAME}:${RUBY_VERSION}-slim-leap${LEAP_VERSION}

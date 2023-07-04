@@ -1,17 +1,19 @@
 ARG LEAP_VERSION
-FROM ruby-buildenv-mc3-${LEAP_VERSION} AS build
+FROM ruby-buildenv-new-${LEAP_VERSION} AS build
 ARG VERSION
 WORKDIR /build
+# fix detection of openssl by ruby-build
+RUN sed -i s/SUSE_OPENSSL_STRING_PARAM_FUNCB\(SUSE_OPENSSL_RELEASE\)//g /usr/include/openssl/opensslv.h
 ENV VERSION ${VERSION}
 ENV CONFIGURE_OPTS="--enable-shared --disable-static"
 ENV RUBY_CFLAGS="${CFLAGS} -fno-strict-aliasing"
 RUN ruby-build ${VERSION} --patch /opt/ruby
 
 
-FROM ruby-base-${LEAP_VERSION} AS release
+FROM ruby-base-new-${LEAP_VERSION} AS release
 COPY --from=build /opt/ruby /opt/ruby
-COPY --from=build /etc/ssl/openssl.cnf /etc/ssl/openssl.cnf
 RUN ldconfig
+ENV MARIADB_PLUGIN_DIR=/usr/lib64/mysql/plugin
 
 
 FROM release AS slim-build
@@ -19,7 +21,7 @@ RUN rm -f /opt/ruby/lib/*.a && \
   rm -f /opt/ruby/lib/*.la
 
 
-FROM ruby-slim-base-${LEAP_VERSION} AS slim-release
+FROM ruby-slim-base-new-${LEAP_VERSION} AS slim-release
 COPY --from=slim-build /opt/ruby /opt/ruby
-COPY --from=slim-build /etc/ssl/openssl.cnf /etc/ssl/openssl.cnf
 RUN ldconfig
+ENV MARIADB_PLUGIN_DIR=/usr/lib64/mysql/plugin
