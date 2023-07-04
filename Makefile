@@ -89,8 +89,8 @@ tmp: Makefile
 
 clean: rm -rf tmp
 push: all push-ruby-1.9 push-ruby-2.0 push-ruby-2.1 push-ruby-2.2 \
-			push-ruby-2.3 push-ruby-2.4 push-ruby-2.5 push-ruby-2.6 push-ruby-2.7
-
+			push-ruby-2.3 push-ruby-2.4 push-ruby-2.5 push-ruby-2.6 push-ruby-2.7 \
+			push-ruby-3.1 push-ruby-3.2
 
 tmp/buildenv-old: buildenv.dockerfile buildenv-mariadb-connector-3.dockerfile buildenv-mariadb-connector-2.dockerfile
 	docker build  \
@@ -171,11 +171,11 @@ tmp/ruby-2.7: tmp/build_images ruby-2.7.dockerfile ruby-2.7-slim.dockerfile
 	touch tmp/ruby-2.7
 
 tmp/ruby-3.1: tmp/build_images ruby-3.1.dockerfile ruby-3.1-slim.dockerfile
-	make _ruby_build RUBY_MINOR_VERSION=3.1 RUBY_VERSION=${R_27_VERSION}
+	make _ruby_build RUBY_MINOR_VERSION=3.1 RUBY_VERSION=${R_31_VERSION}
 	touch tmp/ruby-3.1
 
 tmp/ruby-3.2: tmp/build_images ruby-3.2.dockerfile ruby-3.2-slim.dockerfile
-	make _ruby_build RUBY_MINOR_VERSION=3.2 RUBY_VERSION=${R_27_VERSION}
+	make _ruby_build RUBY_MINOR_VERSION=3.2 RUBY_VERSION=${R_32_VERSION}
 	touch tmp/ruby-3.2
 
 
