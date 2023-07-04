@@ -5,12 +5,14 @@
 IMAGE_NAME=docker-reg.intercom.it/intercom/ruby
 R_25_VERSION=2.5.9
 R_26_VERSION=2.6.10
-R_27_VERSION=2.7.6
+R_27_VERSION=2.7.8
+R_31_VERSION=3.1.4
+R_32_VERSION=3.2.2
 LEAP_VERSION=15.4
 $(eval DATE=$(shell date +%Y%m%d))
 
 all: tmp/build_images ruby-1.9 ruby-2.0 ruby-2.1 ruby-2.2 ruby-2.3 \
-			ruby-2.4 ruby-2.5 ruby-2.6 ruby-2.7
+			ruby-2.4 ruby-2.5 ruby-2.6 ruby-2.7 ruby-3.1 ruby-3.2
 
 tmp/build_images: tmp tmp/buildenv tmp/slim-base tmp/devel-base
 	touch tmp/build_images
@@ -43,6 +45,10 @@ ruby-2.6: tmp/ruby-2.6
 
 ruby-2.7: tmp/ruby-2.7
 
+ruby-3.1: tmp/ruby-3.1
+
+ruby-3.2: tmp/ruby-3.2
+
 
 push-ruby-1.9: tmp/ruby-1.9
 	make _ruby_push RUBY_MINOR_VERSION=1.9 RUBY_VERSION=1.9.3
@@ -70,6 +76,12 @@ push-ruby-2.6: tmp/ruby-2.6
 
 push-ruby-2.7: tmp/ruby-2.7
 	make _ruby_push RUBY_MINOR_VERSION=2.7 RUBY_VERSION=${R_27_VERSION}
+
+push-ruby-3.1: tmp/ruby-3.1
+	make _ruby_push RUBY_MINOR_VERSION=3.1 RUBY_VERSION=${R_31_VERSION}
+
+push-ruby-3.2: tmp/ruby-3.2
+	make _ruby_push RUBY_MINOR_VERSION=3.2 RUBY_VERSION=${R_32_VERSION}
 
 tmp: Makefile
 	mkdir -p tmp
@@ -157,6 +169,14 @@ tmp/ruby-2.6: tmp/build_images ruby-2.6.dockerfile ruby-2.6-slim.dockerfile
 tmp/ruby-2.7: tmp/build_images ruby-2.7.dockerfile ruby-2.7-slim.dockerfile
 	make _ruby_build RUBY_MINOR_VERSION=2.7 RUBY_VERSION=${R_27_VERSION}
 	touch tmp/ruby-2.7
+
+tmp/ruby-3.1: tmp/build_images ruby-3.1.dockerfile ruby-3.1-slim.dockerfile
+	make _ruby_build RUBY_MINOR_VERSION=3.1 RUBY_VERSION=${R_27_VERSION}
+	touch tmp/ruby-3.1
+
+tmp/ruby-3.2: tmp/build_images ruby-3.2.dockerfile ruby-3.2-slim.dockerfile
+	make _ruby_build RUBY_MINOR_VERSION=3.2 RUBY_VERSION=${R_27_VERSION}
+	touch tmp/ruby-3.2
 
 
 _ruby_build:
