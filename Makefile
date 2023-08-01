@@ -8,7 +8,7 @@ R_26_VERSION=2.6.10
 R_27_VERSION=2.7.8
 R_31_VERSION=3.1.4
 R_32_VERSION=3.2.2
-LEAP_VERSION=15.4
+LEAP_VERSION=15.5
 $(eval DATE=$(shell date +%Y%m%d))
 
 all: tmp/build_images ruby-1.9 ruby-2.0 ruby-2.1 ruby-2.2 ruby-2.3 \
