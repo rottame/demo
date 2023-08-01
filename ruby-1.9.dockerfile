@@ -6,7 +6,7 @@ COPY ruby-1.9.3.patch ruby.patch
 ENV VERSION ${VERSION}
 ENV CONFIGURE_OPTS="--enable-shared --disable-static"
 ENV RUBY_CFLAGS="${CFLAGS} -fno-strict-aliasing"
-RUN ruby-build 1.9.3-p551 --patch /opt/ruby < ruby.patch
+RUN ruby-build 1.9.3-p551 --patch /opt/ruby < ruby.patch || ruby-build 1.9.3-p551 --patch /opt/ruby < ruby.patch
 
 
 FROM ruby-base-${LEAP_VERSION} AS release
