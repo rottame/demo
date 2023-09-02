@@ -2,7 +2,7 @@
 
 set -x
 
-zypper -n ar https://download.opensuse.org/repositories/security:/tls/15.4 security || exit 1
+zypper -n ar https://download.opensuse.org/repositories/security:/tls/15.5 security || exit 1
 zypper -n --gpg-auto-import-keys si openssl-1_0_0 || exit 1
 
 cd /usr/src/packages/SPECS || exit 1

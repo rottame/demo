@@ -22,13 +22,13 @@ ENV CFLAGS "-O2 -g -m64 -fmessage-length=0 -D_FORTIFY_SOURCE=2 -fstack-protector
 
 RUN mkdir /build
 WORKDIR /build
-RUN wget https://repos.obs.intercom.it/home:/rottame:/vhosts-ng/15.4/src/ImageMagick6-6.8.8.1-lp154.82.1.src.rpm
-RUN wget https://downloads.mariadb.com/Connectors/c/connector-c-3.3.2/mariadb-connector-c-3.3.2-src.tar.gz
+RUN wget https://repos.obs.intercom.it/home:/rottame:/vhosts-ng/15.5/src/ImageMagick6-6.8.8.1-lp155.82.1.src.rpm
+RUN wget https://downloads.mariadb.com/Connectors/c/connector-c-3.3.5/mariadb-connector-c-3.3.5-src.tar.gz
 RUN wget https://downloads.mariadb.com/Connectors/c/connector-c-2.3.7/mariadb-connector-c-2.3.7-src.tar.gz
 RUN wget https://github.com/curl/curl/releases/download/curl-7_85_0/curl-7.85.0.tar.bz2
 RUN mkdir openssl-src im-src
 WORKDIR /build/im-src
-RUN rpm2cpio ../ImageMagick6-6.8.8.1-lp154.82.1.src.rpm | cpio -id
+RUN rpm2cpio ../ImageMagick6-6.8.8.1-lp155.82.1.src.rpm | cpio -id
 
 WORKDIR /build
 

@@ -1,9 +1,9 @@
 ARG LEAP_VERSION
 FROM ruby-buildenv-base-${LEAP_VERSION} AS build
-  
-WORKDIR /build  
-RUN tar zxf mariadb-connector-c-3.3.2-src.tar.gz
-WORKDIR /build/mariadb-connector-c-3.3.2-src
+
+WORKDIR /build
+RUN tar zxf mariadb-connector-c-3.3.5-src.tar.gz
+WORKDIR /build/mariadb-connector-c-3.3.5-src
 RUN cmake -DWITH_EXTERNAL_ZLIB:BOOL=ON \
   -DMARIADB_UNIX_ADDR:STRING=/run/mysql/mysql.sock \
   -DCMAKE_INSTALL_PREFIX:STRING=/opt/ruby \
@@ -16,6 +16,6 @@ RUN cmake -DWITH_EXTERNAL_ZLIB:BOOL=ON \
   make && \
   make install && \
   ldconfig && \
-  ln -sf /opt/ruby/bin/mariadb_config /opt/ruby/bin/mysql_config 
-  
+  ln -sf /opt/ruby/bin/mariadb_config /opt/ruby/bin/mysql_config
+
 WORKDIR /build/ruby-build
