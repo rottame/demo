@@ -99,42 +99,50 @@ tmp: Makefile
 
 tmp/buildenv-old: buildenv.dockerfile buildenv-mariadb-connector-3.dockerfile buildenv-mariadb-connector-2.dockerfile
 	docker build  \
+		--progress plain \
 		--build-arg LEAP_VERSION=${LEAP_VERSION} \
 		-t ruby-buildenv-base-${LEAP_VERSION} -f buildenv.dockerfile . || exit 1
 	docker build  \
+		--progress plain \
 		--build-arg LEAP_VERSION=${LEAP_VERSION} \
 		-t ruby-buildenv-mc2-${LEAP_VERSION} -f buildenv-mariadb-connector-2.dockerfile . || exit 1
 	docker build  \
+		--progress plain \
 		--build-arg LEAP_VERSION=${LEAP_VERSION} \
 		-t ruby-buildenv-mc3-${LEAP_VERSION} -f buildenv-mariadb-connector-3.dockerfile . || exit 1
 	touch tmp/buildenv-old
 
 tmp/slim-base-old: slim-base.dockerfile
 	docker build  \
+		--progress plain \
 		--build-arg LEAP_VERSION=${LEAP_VERSION} \
 		-t ruby-slim-base-${LEAP_VERSION} -f slim-base.dockerfile . || exit 1
 	touch tmp/slim-base-old
 
 tmp/devel-base-old: tmp/slim-base-old
 	docker build  \
+		--progress plain \
 		--build-arg LEAP_VERSION=${LEAP_VERSION} \
 		-t ruby-base-${LEAP_VERSION} -f devel-base.dockerfile . || exit 1
 	touch tmp/devel-base-old
 
 tmp/buildenv-new: buildenv-new.dockerfile
 	docker build \
+		--progress plain \
 		--build-arg LEAP_VERSION=${LEAP_VERSION} \
 		-t ruby-buildenv-new-${LEAP_VERSION} -f buildenv-new.dockerfile . || exit 1
 	touch tmp/buildenv-new
 
 tmp/slim-base-new: slim-base-new.dockerfile
 	docker build \
+		--progress plain \
 		--build-arg LEAP_VERSION=${LEAP_VERSION} \
 		-t ruby-slim-base-new-${LEAP_VERSION} -f slim-base-new.dockerfile . || exit 1
 	touch tmp/slim-base-new
 
 tmp/devel-base-new: tmp/slim-base-new devel-base-new.dockerfile
 	docker build \
+		--progress plain \
 		--build-arg LEAP_VERSION=${LEAP_VERSION} \
 		-t ruby-base-new-${LEAP_VERSION} -f devel-base-new.dockerfile . || exit 1
 	touch tmp/devel-base-new
@@ -197,6 +205,7 @@ tmp/ruby-3.2: tmp/build_images ruby-new.dockerfile
 
 _ruby_build:
 	docker build \
+		--progress plain \
 		--build-arg LEAP_VERSION=${LEAP_VERSION} \
 		--build-arg VERSION=${RUBY_VERSION} \
 		--target release \
@@ -204,6 +213,7 @@ _ruby_build:
 		-t ruby:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION} -f ruby-${RUBY_MINOR_VERSION}.dockerfile . || exit 1
 
 	docker build \
+		--progress plain \
 		--build-arg LEAP_VERSION=${LEAP_VERSION} \
 		--build-arg VERSION=${RUBY_VERSION} \
 		--target slim-release \
@@ -212,6 +222,7 @@ _ruby_build:
 
 _ruby_build_new:
 	docker build \
+		--progress plain \
 		--build-arg LEAP_VERSION=${LEAP_VERSION} \
 		--build-arg VERSION=${RUBY_VERSION} \
 		--target release \
@@ -219,6 +230,7 @@ _ruby_build_new:
 		-t ruby:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION} -f ruby-new.dockerfile . || exit 1
 
 	docker build \
+		--progress plain \
 		--build-arg LEAP_VERSION=${LEAP_VERSION} \
 		--build-arg VERSION=${RUBY_VERSION} \
 		--target slim-release \

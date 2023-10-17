@@ -88,6 +88,7 @@ RUN update-ca-certificates
 WORKDIR /build
 RUN git clone https://github.com/rbenv/ruby-build.git
 WORKDIR /build/ruby-build
-RUN sed  -i "s/local version_text=\$(printf/local version_text=\$(openssl version 2>\/dev\/null || printf/g" bin/ruby-build
+RUN grep "version_text=\$(printf" bin/ruby-build || exit 1
+RUN sed  -i "s/version_text=\$(printf/version_text=\$(openssl version 2>\/dev\/null || printf/g" bin/ruby-build
 RUN PREFIX=/usr/local ./install.sh
 
