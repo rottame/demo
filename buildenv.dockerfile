@@ -21,6 +21,7 @@ ENV PATH /opt/ruby/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/
 ENV CFLAGS "-O2 -g -m64 -fmessage-length=0 -D_FORTIFY_SOURCE=2 -fstack-protector -funwind-tables -fasynchronous-unwind-tables"
 
 RUN mkdir /build
+
 WORKDIR /build
 RUN wget https://repos.obs.intercom.it/home:/rottame:/vhosts-ng/15.5/src/ImageMagick6-6.8.8.1-lp155.82.1.src.rpm
 RUN wget https://downloads.mariadb.com/Connectors/c/connector-c-3.3.5/mariadb-connector-c-3.3.5-src.tar.gz
@@ -86,9 +87,9 @@ ADD DST_Root_CA_X3.pem /etc/pki/trust/blacklist/DST_Root_CA_X3.pem
 RUN update-ca-certificates
 
 WORKDIR /build
-RUN git clone https://github.com/rbenv/ruby-build.git
+
+RUN git clone https://github.com/rbenv/ruby-build.git -b v20231107
 WORKDIR /build/ruby-build
-RUN grep "version_text=\$(printf" bin/ruby-build || exit 1
-RUN sed  -i "s/version_text=\$(printf/version_text=\$(openssl version 2>\/dev\/null || printf/g" bin/ruby-build
+RUN sed  -i "s/cc \(-xc.*OpenSSL\)/cc -I\/opt\/ruby\/include \1/g" bin/ruby-build
 RUN PREFIX=/usr/local ./install.sh
 
