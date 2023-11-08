@@ -238,38 +238,14 @@ _ruby_build_new:
 		-t ruby:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION} -f ruby-new.dockerfile . || exit 1
 
 _ruby_tag:
-	docker tag ruby:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION} ${IMAGE_NAME}:${RUBY_VERSION}
-	docker tag ruby:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION} ${IMAGE_NAME}:${RUBY_VERSION}-leap
-	docker tag ruby:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION} ${IMAGE_NAME}:${RUBY_VERSION}-leap${LEAP_VERSION}
-	docker tag ruby:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION} ${IMAGE_NAME}:${RUBY_VERSION}-leap${LEAP_VERSION}-${DATE}
 	docker tag ruby:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION} ${IMAGE_NAME}:${RUBY_MINOR_VERSION}
-	docker tag ruby:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION} ${IMAGE_NAME}:${RUBY_MINOR_VERSION}-leap
-	docker tag ruby:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION} ${IMAGE_NAME}:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION}
 	docker tag ruby:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION} ${IMAGE_NAME}:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION}-${DATE}
 
-	docker tag ruby:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION} ${IMAGE_NAME}:${RUBY_VERSION}-slim
-	docker tag ruby:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION} ${IMAGE_NAME}:${RUBY_VERSION}-slim-leap
-	docker tag ruby:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION} ${IMAGE_NAME}:${RUBY_VERSION}-slim-leap${LEAP_VERSION}
-	docker tag ruby:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION} ${IMAGE_NAME}:${RUBY_VERSION}-slim-leap${LEAP_VERSION}-${DATE}
 	docker tag ruby:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION} ${IMAGE_NAME}:${RUBY_MINOR_VERSION}-slim
-	docker tag ruby:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION} ${IMAGE_NAME}:${RUBY_MINOR_VERSION}-slim-leap
-	docker tag ruby:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION} ${IMAGE_NAME}:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION}
 	docker tag ruby:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION} ${IMAGE_NAME}:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION}-${DATE}
 
 _ruby_push:
-	docker push ${IMAGE_NAME}:${RUBY_VERSION}
-	docker push ${IMAGE_NAME}:${RUBY_VERSION}-leap
-	docker push ${IMAGE_NAME}:${RUBY_VERSION}-leap${LEAP_VERSION}
-	docker push ${IMAGE_NAME}:${RUBY_VERSION}-leap${LEAP_VERSION}-${DATE}
 	docker push ${IMAGE_NAME}:${RUBY_MINOR_VERSION}
-	docker push ${IMAGE_NAME}:${RUBY_MINOR_VERSION}-leap
-	docker push ${IMAGE_NAME}:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION}
 	docker push ${IMAGE_NAME}:${RUBY_MINOR_VERSION}-leap${LEAP_VERSION}-${DATE}
-	docker push ${IMAGE_NAME}:${RUBY_VERSION}-slim
-	docker push ${IMAGE_NAME}:${RUBY_VERSION}-slim-leap
-	docker push ${IMAGE_NAME}:${RUBY_VERSION}-slim-leap${LEAP_VERSION}
-	docker push ${IMAGE_NAME}:${RUBY_VERSION}-slim-leap${LEAP_VERSION}-${DATE}
 	docker push ${IMAGE_NAME}:${RUBY_MINOR_VERSION}-slim
-	docker push ${IMAGE_NAME}:${RUBY_MINOR_VERSION}-slim-leap
-	docker push ${IMAGE_NAME}:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION}
 	docker push ${IMAGE_NAME}:${RUBY_MINOR_VERSION}-slim-leap${LEAP_VERSION}-${DATE}
